@@ -1,0 +1,30 @@
+---
+description: Toujours s'aligner sur le contexte projet MédiLabo avant toute action
+alwaysApply: true
+---
+
+# Contexte projet — référence obligatoire
+
+Avant toute **génération ou modification de code** :
+
+1. Lire `.cursor/CONTEXTE_PROJET.md` (version basique — référence par défaut)
+2. Consulter `.cursor/CONTEXTE_PROJET_ENRICHI.md` si besoin de détail (algo, jeux de test, user stories complètes)
+
+## Quand consulter le fichier enrichi
+
+- Implémentation de l'algorithme de risque (Sprint 3)
+- Jeux de données de test (Annexes A, B, C)
+- User stories et points d'attention détaillés
+- Docker Compose, Green Code, livrables finaux
+
+## Règles clés (rappel)
+
+- **Périmètre strict** : user stories uniquement — rien de non demandé
+- **Microservices** : une responsabilité par service
+- **Sécurité** : HTTP Basic + BCrypt, pas de sign-up ni de rôles
+- **Données** : SQL 3NF (`service/patient`), MongoDB texte libre (`service/notes`), pas de BDD pour `service/risk-assessment`
+- **Front / gateway** : `frontend` et `service/gateway` uniques, enrichis à chaque sprint
+
+## En cas de conflit
+
+Si la demande utilisateur contredit le contexte projet, **signaler le conflit** avant d'implémenter.
