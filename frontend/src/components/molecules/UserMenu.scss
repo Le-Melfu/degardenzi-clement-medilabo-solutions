@@ -1,0 +1,11 @@
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+
+  &__name strong {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+}

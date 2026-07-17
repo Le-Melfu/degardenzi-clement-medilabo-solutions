@@ -43,29 +43,11 @@ Bases : `medilabo_patient`, `medilabo_gateway` — compte de service DB : `medil
 
 ### service/gateway (port 8080)
 
-Auth HTTP Basic. Profil **local** (H2 fichier, persistant) par défaut.
-
-| Compte app | Mot de passe | Rôle |
-|------------|--------------|------|
-| `doctor` | `password` | Médecin |
-| `service` | `service` | Compte technique inter-services |
-
-Schéma auto au boot : `classpath:db/schema.sql` — seed users via `UserDataLoader` (BCrypt).
-
-```bash
-cd service/gateway
-mvn spring-boot:run
-# MySQL :
-mvn spring-boot:run "-Dspring-boot.run.profiles=mysql"
-```
+→ voir [`service/gateway/README.md`](service/gateway/README.md)
 
 ### frontend (port 3000)
 
-```bash
-cd frontend
-npm install
-npm run dev
-```
+→ voir [`frontend/README.md`](frontend/README.md)
 
 ## Sprints
 
