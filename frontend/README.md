@@ -54,7 +54,8 @@ src/
 |-------|------|
 | `/` | Liste des patients |
 | `/patients/new` | Création |
-| `/patients/:id` | Détail / édition |
+| `/patients/:id` | Détail (lecture) |
+| `/patients/:id/edit` | Édition |
 ## Docker
 
 ```bash

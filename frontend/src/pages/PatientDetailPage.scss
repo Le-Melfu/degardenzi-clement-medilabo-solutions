@@ -39,6 +39,34 @@
     box-shadow: var(--shadow-sm);
   }
 
+  &__view {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin: 0;
+    padding: var(--space-5);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+  }
+
+  &__field {
+    display: grid;
+    gap: var(--space-1);
+
+    dt {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--color-text-muted);
+    }
+
+    dd {
+      margin: 0;
+      font-size: 1rem;
+    }
+  }
+
   &__actions {
     display: flex;
     justify-content: flex-end;

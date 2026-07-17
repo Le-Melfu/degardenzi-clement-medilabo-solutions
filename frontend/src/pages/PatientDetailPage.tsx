@@ -114,7 +114,7 @@ export function PatientDetailPage({ mode }: PatientDetailPageProps) {
         navigate(`/patients/${created.id}`, { replace: true })
       } else if (id) {
         await updatePatient(Number(id), payload)
-        navigate('/')
+        navigate(`/patients/${id}`, { replace: true })
       }
     } catch (err) {
       if (err instanceof UnauthorizedError) {
@@ -134,10 +134,12 @@ export function PatientDetailPage({ mode }: PatientDetailPageProps) {
         <header className="patient-detail__header">
           <div>
             <p className="patient-detail__back">
-              <Link to="/">← Retour à la liste</Link>
+              <Link to={mode === 'create' ? '/' : `/patients/${id}`}>
+                ← {mode === 'create' ? 'Retour à la liste' : 'Retour au dossier'}
+              </Link>
             </p>
             <h2 className="patient-detail__title">
-              {mode === 'create' ? 'Nouveau patient' : 'Dossier patient'}
+              {mode === 'create' ? 'Nouveau patient' : 'Modifier le patient'}
             </h2>
           </div>
         </header>
@@ -195,7 +197,11 @@ export function PatientDetailPage({ mode }: PatientDetailPageProps) {
               onChange={(e) => handleChange('phone', e.target.value)}
             />
             <div className="patient-detail__actions">
-              <Button type="button" variant="secondary" onClick={() => navigate('/')}>
+              <Button
+                type="button"
+                variant="secondary"
+                onClick={() => navigate(mode === 'create' ? '/' : `/patients/${id}`)}
+              >
                 Annuler
               </Button>
               <Button type="submit" disabled={saving}>

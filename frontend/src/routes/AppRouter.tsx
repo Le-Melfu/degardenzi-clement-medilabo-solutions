@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { PatientDetailPage } from '../pages/PatientDetailPage'
+import { PatientViewPage } from '../pages/PatientViewPage'
 import { PatientsPage } from '../pages/PatientsPage'
 import { LoginPage } from '../pages/LoginPage'
 import { useAuth } from '../session/AuthContext'
@@ -17,7 +18,8 @@ export function AppRouter() {
       <Route element={<ProtectedRoute />}>
         <Route path="/" element={<PatientsPage />} />
         <Route path="/patients/new" element={<PatientDetailPage mode="create" />} />
-        <Route path="/patients/:id" element={<PatientDetailPage mode="edit" />} />
+        <Route path="/patients/:id" element={<PatientViewPage />} />
+        <Route path="/patients/:id/edit" element={<PatientDetailPage mode="edit" />} />
       </Route>
       <Route path="*" element={<Navigate to={isAuthenticated ? '/' : '/login'} replace />} />
     </Routes>
