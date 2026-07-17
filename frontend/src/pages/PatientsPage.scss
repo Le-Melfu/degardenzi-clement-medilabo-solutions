@@ -1,0 +1,73 @@
+.patients-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  &__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  &__subtitle {
+    margin-top: var(--space-2);
+    color: var(--color-text-muted);
+  }
+
+  &__status {
+    color: var(--color-text-muted);
+  }
+
+  &__error {
+    color: var(--color-danger);
+  }
+
+  &__table-wrap {
+    overflow-x: auto;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+  }
+
+  &__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+
+    th,
+    td {
+      padding: var(--space-3) var(--space-4);
+      text-align: left;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    th {
+      font-weight: 600;
+      color: var(--color-text-muted);
+      background: var(--color-placeholder);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+  }
+
+  &__link {
+    color: var(--color-primary);
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      color: var(--color-primary-hover);
+      text-decoration: underline;
+    }
+  }
+}

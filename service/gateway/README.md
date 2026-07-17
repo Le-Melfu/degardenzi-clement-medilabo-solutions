@@ -1,21 +1,22 @@
 # Gateway — Medilabo Solutions
 
-Point d’entrée API (Spring Cloud Gateway MVC). Auth HTTP Basic, routage vers les microservices back.
+Point d’entrée API (Spring Cloud Gateway MVC). Auth HTTP Basic, routage vers les microservices via URLs locales.
 
 ## Prérequis
 
 - Java 21
 - Maven 3.9+
-- Profil **local** (défaut) : aucune DB externe (H2 fichier)
-- Profil **mysql** : MySQL avec base `medilabo_gateway` et user `medilabo` / `medilabo`
+- Service **patient** démarré sur `http://localhost:8081`
+- Profil **local** (défaut) : H2 fichier
+- Profil **mysql** : MySQL `medilabo_gateway` / user `medilabo`
 
 ## Commandes
 
 ```bash
-# Lancer (profil local = H2 persistant dans ./data)
+cd service/gateway
 mvn spring-boot:run
 
-# Lancer avec MySQL
+# MySQL
 mvn spring-boot:run "-Dspring-boot.run.profiles=mysql"
 
 # Tests
@@ -26,7 +27,16 @@ mvn -DskipTests package
 java -jar target/gateway-0.0.1-SNAPSHOT.jar
 ```
 
-Service disponible sur **http://localhost:8080**.
+Service : **http://localhost:8080**
+
+## Routage
+
+| Path gateway | URI | Service |
+|--------------|-----|---------|
+| `/patient/**` | `http://localhost:8081` | patient |
+| `/notes/**` | `http://localhost:8082` | notes (sprint 2) |
+| `/risk/**` | `http://localhost:8083` | risk-assessment (sprint 3) |
+| `/auth/**` | local | gateway (auth) |
 
 ## Comptes applicatifs (seed au démarrage)
 
@@ -40,16 +50,28 @@ Service disponible sur **http://localhost:8080**.
 | Méthode | Chemin | Description |
 |---------|--------|-------------|
 | `GET` | `/auth/me` | Vérifie l’auth, renvoie `{ "username": "..." }` |
-| `*` | `/patient/**` | Proxy vers `service/patient` (`localhost:8081`) |
+| `*` | `/patient/**` | Proxy vers `patient` (8081) |
+
+## Logging des appels
+
+```text
+[Gateway] --> gateway GET /auth/me -> 200 (12 ms) user=doctor
+[Gateway] --> patient GET /patient/1 -> 200 (45 ms) user=doctor
+```
+
+Couleurs console (ANSI) :
+- **service** : gateway bleu, patient vert, notes jaune, risk rouge
+- **statut** : 2xx vert, 4xx jaune, 5xx rouge
+- **durée** : vert / jaune (≥300 ms) / rouge (≥1 s)
+- **user** : magenta
 
 ## Base de données
 
-- Schéma auto : `src/main/resources/db/schema.sql` (`spring.sql.init`)
-- Seed users : `UserDataLoader` (mots de passe BCrypt)
-- MySQL (Docker / script) :
+- Schéma auto : `src/main/resources/db/schema.sql`
+- Seed users : `UserDataLoader` (BCrypt)
+- MySQL :
 
 ```bash
-# Depuis la racine du repo
 docker compose up -d mysql
 # ou
 .\scripts\setup-mysql.ps1 -RootPassword "TON_MOT_DE_PASSE_ROOT"

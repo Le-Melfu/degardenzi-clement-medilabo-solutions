@@ -36,4 +36,25 @@
     font-size: 1.35rem;
     font-weight: 700;
   }
+
+  &__title-link {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  &__nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  &__nav-link {
+    color: var(--color-primary);
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }

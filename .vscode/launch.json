@@ -1,0 +1,77 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Patient (local/H2)",
+      "request": "launch",
+      "mainClass": "com.medilabo.patient.PatientApplication",
+      "projectName": "patient",
+      "cwd": "${workspaceFolder}/service/patient",
+      "args": "--spring.profiles.active=local"
+    },
+    {
+      "type": "java",
+      "name": "Patient (MySQL)",
+      "request": "launch",
+      "mainClass": "com.medilabo.patient.PatientApplication",
+      "projectName": "patient",
+      "cwd": "${workspaceFolder}/service/patient",
+      "args": "--spring.profiles.active=mysql"
+    },
+    {
+      "type": "java",
+      "name": "Gateway (local/H2)",
+      "request": "launch",
+      "mainClass": "com.medilabo.gateway.GatewayApplication",
+      "projectName": "gateway",
+      "cwd": "${workspaceFolder}/service/gateway",
+      "args": "--spring.profiles.active=local"
+    },
+    {
+      "type": "java",
+      "name": "Gateway (MySQL)",
+      "request": "launch",
+      "mainClass": "com.medilabo.gateway.GatewayApplication",
+      "projectName": "gateway",
+      "cwd": "${workspaceFolder}/service/gateway",
+      "args": "--spring.profiles.active=mysql"
+    },
+    {
+      "type": "node",
+      "name": "Frontend",
+      "request": "launch",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "cwd": "${workspaceFolder}/frontend",
+      "console": "integratedTerminal"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Medilabo — stack back (H2)",
+      "configurations": [
+        "Patient (local/H2)",
+        "Gateway (local/H2)"
+      ],
+      "stopAll": true
+    },
+    {
+      "name": "Medilabo — full (H2 + front)",
+      "configurations": [
+        "Patient (local/H2)",
+        "Gateway (local/H2)",
+        "Frontend"
+      ],
+      "stopAll": true
+    },
+    {
+      "name": "Medilabo — stack back (MySQL)",
+      "configurations": [
+        "Patient (MySQL)",
+        "Gateway (MySQL)"
+      ],
+      "stopAll": true
+    }
+  ]
+}

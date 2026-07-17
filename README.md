@@ -12,47 +12,53 @@ degardenzi-clement-medilabo-solutions/
 │   ├── gateway/               # Sprint 1 — Spring Cloud Gateway
 │   ├── notes/                 # Sprint 2 — notes medecin (MongoDB)
 │   └── risk-assessment/       # Sprint 3 — calcul du risque diabete
-└── docker-compose.yml         # A venir
+└── docker-compose.yml
 ```
 
 ## Stack
 
 - **Backend** : Spring Boot 3.4, Java 21
-- **Gateway** : Spring Cloud Gateway
+- **Gateway** : Spring Cloud Gateway (routage vers URLs locales)
 - **Frontend** : React + Vite (partie client independante, pas un microservice back)
 - **Bases de donnees** : MySQL (patient), MongoDB (notes — sprint 2)
 
 ## Demarrage local (base actuelle)
 
-### service/patient (port 8081)
+→ détail : [`scripts/launch/README.md`](scripts/launch/README.md)
 
-```bash
-cd service/patient
-mvn spring-boot:run
+**Ordre** : Patient → Gateway → Frontend
+
+### Option rapide (PowerShell)
+
+```powershell
+.\scripts\launch\start-all.ps1
 ```
 
-### MySQL (patient + gateway)
+Ou service par service :
 
-```bash
-docker compose up -d mysql
-# ou, MySQL80 local :
+```powershell
+.\scripts\launch\start-patient.ps1
+.\scripts\launch\start-gateway.ps1
+.\scripts\launch\start-frontend.ps1
+```
+
+### Option Cursor / VS Code
+
+**Run and Debug** → `Medilabo — full (H2 + front)` ou configs individuelles (Patient, Gateway, Frontend).
+
+### MySQL (optionnel)
+
+```powershell
 .\scripts\setup-mysql.ps1 -RootPassword "TON_MOT_DE_PASSE_ROOT"
+.\scripts\launch\start-all.ps1 -Profile mysql
 ```
 
-Bases : `medilabo_patient`, `medilabo_gateway` — compte de service DB : `medilabo` / `medilabo`.
-
-### service/gateway (port 8080)
-
-→ voir [`service/gateway/README.md`](service/gateway/README.md)
-
-### frontend (port 3000)
-
-→ voir [`frontend/README.md`](frontend/README.md)
+Bases : `medilabo_patient`, `medilabo_gateway` — user DB : `medilabo` / `medilabo`.
 
 ## Sprints
 
 | Sprint | Livrables |
 |--------|-----------|
-| 1 | patient, gateway, frontend (liste + detail patient) |
+| 1 | patient (CRUD + seed), gateway, frontend (liste + détail + création / édition) |
 | 2 | notes + enrichissement gateway / frontend |
 | 3 | risk-assessment + Green Code |

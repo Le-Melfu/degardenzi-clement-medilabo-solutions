@@ -40,12 +40,21 @@ Session stockée en `sessionStorage` (credentials HTTP Basic).
 ```
 src/
 ├── components/   # atoms / molecules / organisms (SCSS par composant)
-├── pages/
+├── pages/        # login, liste patients, détail / création
 ├── routes/
+├── services/     # appels API patient
 ├── session/      # AuthContext + login/logout
+├── types/
 └── styles/       # tokens + global
 ```
 
+## Pages Sprint 1
+
+| Route | Page |
+|-------|------|
+| `/` | Liste des patients |
+| `/patients/new` | Création |
+| `/patients/:id` | Détail / édition |
 ## Docker
 
 ```bash

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { UserMenu } from '../molecules/UserMenu'
 import './AppHeader.scss'
 
@@ -12,9 +13,18 @@ export function AppHeader({ username, onLogout }: AppHeaderProps) {
       <div className="app-header__inner">
         <div className="app-header__brand">
           <p className="app-header__eyebrow">Medilabo Solutions</p>
-          <h1 className="app-header__title">Espace praticien</h1>
+          <h1 className="app-header__title">
+            <Link to="/" className="app-header__title-link">
+              Espace praticien
+            </Link>
+          </h1>
         </div>
-        <UserMenu username={username} onLogout={onLogout} />
+        <nav className="app-header__nav">
+          <Link to="/" className="app-header__nav-link">
+            Patients
+          </Link>
+          <UserMenu username={username} onLogout={onLogout} />
+        </nav>
       </div>
     </header>
   )
