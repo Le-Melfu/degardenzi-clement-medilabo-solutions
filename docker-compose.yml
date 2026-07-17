@@ -1,1 +1,19 @@
-# Placeholder — docker-compose global a completer au fil des sprints
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: medilabo-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - medilabo-mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  medilabo-mysql-data:

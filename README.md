@@ -31,11 +31,32 @@ cd service/patient
 mvn spring-boot:run
 ```
 
+### MySQL (patient + gateway)
+
+```bash
+docker compose up -d mysql
+# ou, MySQL80 local :
+.\scripts\setup-mysql.ps1 -RootPassword "TON_MOT_DE_PASSE_ROOT"
+```
+
+Bases : `medilabo_patient`, `medilabo_gateway` — compte de service DB : `medilabo` / `medilabo`.
+
 ### service/gateway (port 8080)
+
+Auth HTTP Basic. Profil **local** (H2 fichier, persistant) par défaut.
+
+| Compte app | Mot de passe | Rôle |
+|------------|--------------|------|
+| `doctor` | `password` | Médecin |
+| `service` | `service` | Compte technique inter-services |
+
+Schéma auto au boot : `classpath:db/schema.sql` — seed users via `UserDataLoader` (BCrypt).
 
 ```bash
 cd service/gateway
 mvn spring-boot:run
+# MySQL :
+mvn spring-boot:run "-Dspring-boot.run.profiles=mysql"
 ```
 
 ### frontend (port 3000)

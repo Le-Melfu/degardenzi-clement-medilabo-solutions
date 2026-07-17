@@ -4,10 +4,29 @@ server:
 spring:
   application:
     name: gateway
+  profiles:
+    # local = H2 fichier (persistant) | mysql = MySQL (compte de service medilabo)
+    default: local
+  jpa:
+    open-in-view: false
+    hibernate:
+      # Le schéma est géré par db/schema.sql
+      ddl-auto: none
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:db/schema.sql
+      continue-on-error: false
   cloud:
     gateway:
-      routes:
-        - id: patient-service
-          uri: http://localhost:8081
-          predicates:
-            - Path=/patient/**
+      mvc:
+        routes:
+          - id: patient-service
+            uri: http://localhost:8081
+            predicates:
+              - Path=/patient/**
+
+logging:
+  level:
+    org.springframework.security: INFO
+    org.springframework.jdbc.datasource.init: INFO
