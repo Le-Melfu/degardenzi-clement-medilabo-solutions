@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 import com.medilabo.patient.model.Patient;
@@ -35,6 +36,7 @@ public class PatientDataLoader implements CommandLineRunner {
         log.info("[DebugClem] Seeded 4 test patients (Annexe A)");
     }
 
+    @NonNull
     private Patient patient(String firstName, String lastName, LocalDate birthDate, String gender,
             String address, String phone) {
         Patient patient = new Patient();

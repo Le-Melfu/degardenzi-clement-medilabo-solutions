@@ -1,8 +1,10 @@
 package com.medilabo.patient.service;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -42,9 +44,11 @@ public class PatientService {
         return PatientResponse.from(patientRepository.save(patient));
     }
 
+    @NonNull
     private Patient getPatientOrThrow(Long id) {
-        return patientRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient not found"));
+        return Objects.requireNonNull(
+                patientRepository.findById(Objects.requireNonNull(id))
+                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient not found")));
     }
 
     private void applyRequest(Patient patient, PatientRequest request) {

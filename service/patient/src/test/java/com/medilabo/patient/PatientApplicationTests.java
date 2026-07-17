@@ -9,12 +9,16 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.Objects;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.lang.NonNull;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -22,6 +26,11 @@ class PatientApplicationTests {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @NonNull
+    private static RequestPostProcessor doctorAuth() {
+        return Objects.requireNonNull(httpBasic("doctor", "password"));
+    }
 
     @Test
     void contextLoads() {
@@ -35,15 +44,15 @@ class PatientApplicationTests {
 
     @Test
     void shouldListSeededPatients() throws Exception {
-        mockMvc.perform(get("/patient").with(httpBasic("doctor", "password")))
+        mockMvc.perform(get("/patient").with(doctorAuth()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()", greaterThanOrEqualTo(4)))
-                .andExpect(jsonPath("$[*].lastName", hasItem("TestNone")));
+                .andExpect(jsonPath("$.length()", Objects.requireNonNull(greaterThanOrEqualTo(4))))
+                .andExpect(jsonPath("$[*].lastName", Objects.requireNonNull(hasItem("TestNone"))));
     }
 
     @Test
     void shouldGetPatientById() throws Exception {
-        mockMvc.perform(get("/patient/1").with(httpBasic("doctor", "password")))
+        mockMvc.perform(get("/patient/1").with(doctorAuth()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.lastName").value("TestNone"))
                 .andExpect(jsonPath("$.firstName").value("Test"));
@@ -63,8 +72,8 @@ class PatientApplicationTests {
                 """;
 
         mockMvc.perform(post("/patient")
-                        .with(httpBasic("doctor", "password"))
-                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(doctorAuth())
+                        .contentType(Objects.requireNonNull(MediaType.APPLICATION_JSON))
                         .content(body))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").isNumber())
@@ -85,8 +94,8 @@ class PatientApplicationTests {
                 """;
 
         mockMvc.perform(put("/patient/1")
-                        .with(httpBasic("doctor", "password"))
-                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(doctorAuth())
+                        .contentType(Objects.requireNonNull(MediaType.APPLICATION_JSON))
                         .content(body))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.address").value("1 Brookside St Updated"));
@@ -94,7 +103,7 @@ class PatientApplicationTests {
 
     @Test
     void shouldReturnNotFoundForUnknownPatient() throws Exception {
-        mockMvc.perform(get("/patient/9999").with(httpBasic("doctor", "password")))
+        mockMvc.perform(get("/patient/9999").with(doctorAuth()))
                 .andExpect(status().isNotFound());
     }
 }
