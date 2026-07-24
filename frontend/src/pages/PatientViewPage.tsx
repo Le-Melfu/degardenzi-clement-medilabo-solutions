@@ -5,6 +5,12 @@ import { AppShell } from '../components/organisms/AppShell'
 import { getPatient, UnauthorizedError } from '../services/patientService'
 import { useAuth } from '../session/AuthContext'
 import type { Patient } from '../types/patient'
+import {
+  calcAge,
+  formatBirthDate,
+  formatGender,
+  patientInitials,
+} from '../utils/patientDisplay'
 import './PatientDetailPage.scss'
 
 export function PatientViewPage() {
@@ -62,7 +68,7 @@ export function PatientViewPage() {
 
   return (
     <AppShell username={session.username} onLogout={handleLogout}>
-      <div className="patient-detail">
+      <div className="patient-detail page-enter">
         <header className="patient-detail__header">
           <div>
             <p className="patient-detail__back">
@@ -77,6 +83,20 @@ export function PatientViewPage() {
 
         {!loading && patient ? (
           <>
+            <section className="patient-detail__hero">
+              <span className="patient-detail__avatar" aria-hidden>
+                {patientInitials(patient.firstName, patient.lastName)}
+              </span>
+              <div>
+                <h3 className="patient-detail__name">
+                  {patient.lastName} {patient.firstName}
+                </h3>
+                <p className="patient-detail__meta">
+                  {formatGender(patient.gender)} · {calcAge(patient.birthDate)} ans
+                </p>
+              </div>
+            </section>
+
             <dl className="patient-detail__view">
               <div className="patient-detail__field">
                 <dt>Nom</dt>
@@ -88,11 +108,17 @@ export function PatientViewPage() {
               </div>
               <div className="patient-detail__field">
                 <dt>Date de naissance</dt>
-                <dd>{patient.birthDate}</dd>
+                <dd>{formatBirthDate(patient.birthDate)}</dd>
               </div>
               <div className="patient-detail__field">
                 <dt>Genre</dt>
-                <dd>{patient.gender}</dd>
+                <dd>
+                  <span
+                    className={`patient-detail__chip patient-detail__chip--${patient.gender.toLowerCase()}`}
+                  >
+                    {formatGender(patient.gender)}
+                  </span>
+                </dd>
               </div>
               <div className="patient-detail__field">
                 <dt>Adresse</dt>

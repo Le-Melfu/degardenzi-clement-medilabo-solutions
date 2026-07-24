@@ -8,7 +8,7 @@ Application de depistage du risque de diabete de type 2 — architecture microse
 degardenzi-clement-medilabo-solutions/
 ├── frontend/                  # Client React (independant, consomme l'API via la gateway)
 ├── service/
-│   ├── patient/               # Sprint 1 — CRUD dossier patient (SQL 3NF)
+│   ├── patient/               # Sprint 1 — CRUD dossier patient (SQL 3NF / MySQL)
 │   ├── gateway/               # Sprint 1 — Spring Cloud Gateway
 │   ├── notes/                 # Sprint 2 — notes medecin (MongoDB)
 │   └── risk-assessment/       # Sprint 3 — calcul du risque diabete
@@ -20,13 +20,23 @@ degardenzi-clement-medilabo-solutions/
 - **Backend** : Spring Boot 3.4, Java 21
 - **Gateway** : Spring Cloud Gateway (routage vers URLs locales)
 - **Frontend** : React + Vite (partie client independante, pas un microservice back)
-- **Bases de donnees** : MySQL (patient), MongoDB (notes — sprint 2)
+- **Bases de donnees** : MySQL (patient, gateway), MongoDB (notes — sprint 2)
 
-## Demarrage local (base actuelle)
+## Demarrage local
 
 → détail : [`scripts/launch/README.md`](scripts/launch/README.md)
 
-**Ordre** : Patient → Gateway → Frontend
+**Prérequis MySQL** puis **ordre** : Patient → Gateway → Frontend
+
+### MySQL
+
+```powershell
+docker compose up -d mysql
+# ou
+.\scripts\setup-mysql.ps1 -RootPassword "TON_MOT_DE_PASSE_ROOT"
+```
+
+Bases : `medilabo_patient`, `medilabo_gateway` — user DB : `medilabo` / `medilabo`.
 
 ### Option rapide (PowerShell)
 
@@ -34,26 +44,9 @@ degardenzi-clement-medilabo-solutions/
 .\scripts\launch\start-all.ps1
 ```
 
-Ou service par service :
-
-```powershell
-.\scripts\launch\start-patient.ps1
-.\scripts\launch\start-gateway.ps1
-.\scripts\launch\start-frontend.ps1
-```
-
 ### Option Cursor / VS Code
 
-**Run and Debug** → `Medilabo — full (H2 + front)` ou configs individuelles (Patient, Gateway, Frontend).
-
-### MySQL (optionnel)
-
-```powershell
-.\scripts\setup-mysql.ps1 -RootPassword "TON_MOT_DE_PASSE_ROOT"
-.\scripts\launch\start-all.ps1 -Profile mysql
-```
-
-Bases : `medilabo_patient`, `medilabo_gateway` — user DB : `medilabo` / `medilabo`.
+**Run and Debug** → `Medilabo Full Backend Restart`, ou `Patient — restart` / `Gateway — restart` / `Frontend — restart` pour un service seul.
 
 ## Sprints
 

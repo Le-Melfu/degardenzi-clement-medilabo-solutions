@@ -2,6 +2,50 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "kill-port:8081",
+      "type": "shell",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File \"${workspaceFolder}/scripts/launch/kill-port.ps1\" -Port 8081",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "panel": "shared",
+        "close": true
+      }
+    },
+    {
+      "label": "kill-port:8080",
+      "type": "shell",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File \"${workspaceFolder}/scripts/launch/kill-port.ps1\" -Port 8080",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "panel": "shared",
+        "close": true
+      }
+    },
+    {
+      "label": "kill-port:3000",
+      "type": "shell",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File \"${workspaceFolder}/scripts/launch/kill-port.ps1\" -Port 3000",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "panel": "shared",
+        "close": true
+      }
+    },
+    {
+      "label": "kill-ports:backend",
+      "dependsOrder": "parallel",
+      "dependsOn": ["kill-port:8081", "kill-port:8080"],
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "panel": "shared",
+        "close": true
+      }
+    },
+    {
       "label": "patient:run",
       "type": "shell",
       "command": "mvn spring-boot:run",
@@ -47,6 +91,57 @@
         "group": "medilabo"
       },
       "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "medilabo:test",
+      "type": "shell",
+      "command": "mvn test",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": true,
+        "clear": true,
+        "group": "medilabo-tests"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "patient:test",
+      "type": "shell",
+      "command": "mvn test",
+      "options": {
+        "cwd": "${workspaceFolder}/service/patient"
+      },
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": true,
+        "clear": true,
+        "group": "medilabo-tests"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "gateway:test",
+      "type": "shell",
+      "command": "mvn test",
+      "options": {
+        "cwd": "${workspaceFolder}/service/gateway"
+      },
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": true,
+        "clear": true,
+        "group": "medilabo-tests"
+      },
       "problemMatcher": []
     },
     {

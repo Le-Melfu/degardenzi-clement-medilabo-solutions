@@ -1,6 +1,0 @@
-spring:
-  datasource:
-    url: jdbc:mysql://localhost:3306/medilabo_gateway?createDatabaseIfNotExist=false&useSSL=false&allowPublicKeyRetrieval=true
-    username: medilabo
-    password: medilabo
-    driver-class-name: com.mysql.cj.jdbc.Driver

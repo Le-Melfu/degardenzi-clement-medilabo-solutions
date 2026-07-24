@@ -3,39 +3,19 @@
   "configurations": [
     {
       "type": "java",
-      "name": "Patient (local/H2)",
+      "name": "Patient",
       "request": "launch",
       "mainClass": "com.medilabo.patient.PatientApplication",
       "projectName": "patient",
-      "cwd": "${workspaceFolder}/service/patient",
-      "args": "--spring.profiles.active=local"
+      "cwd": "${workspaceFolder}/service/patient"
     },
     {
       "type": "java",
-      "name": "Patient (MySQL)",
-      "request": "launch",
-      "mainClass": "com.medilabo.patient.PatientApplication",
-      "projectName": "patient",
-      "cwd": "${workspaceFolder}/service/patient",
-      "args": "--spring.profiles.active=mysql"
-    },
-    {
-      "type": "java",
-      "name": "Gateway (local/H2)",
+      "name": "Gateway",
       "request": "launch",
       "mainClass": "com.medilabo.gateway.GatewayApplication",
       "projectName": "gateway",
-      "cwd": "${workspaceFolder}/service/gateway",
-      "args": "--spring.profiles.active=local"
-    },
-    {
-      "type": "java",
-      "name": "Gateway (MySQL)",
-      "request": "launch",
-      "mainClass": "com.medilabo.gateway.GatewayApplication",
-      "projectName": "gateway",
-      "cwd": "${workspaceFolder}/service/gateway",
-      "args": "--spring.profiles.active=mysql"
+      "cwd": "${workspaceFolder}/service/gateway"
     },
     {
       "type": "node",
@@ -45,32 +25,80 @@
       "runtimeArgs": ["run", "dev"],
       "cwd": "${workspaceFolder}/frontend",
       "console": "integratedTerminal"
+    },
+    {
+      "type": "java",
+      "name": "Patient — restart",
+      "request": "launch",
+      "mainClass": "com.medilabo.patient.PatientApplication",
+      "projectName": "patient",
+      "cwd": "${workspaceFolder}/service/patient",
+      "preLaunchTask": "kill-port:8081"
+    },
+    {
+      "type": "java",
+      "name": "Gateway — restart",
+      "request": "launch",
+      "mainClass": "com.medilabo.gateway.GatewayApplication",
+      "projectName": "gateway",
+      "cwd": "${workspaceFolder}/service/gateway",
+      "preLaunchTask": "kill-port:8080"
+    },
+    {
+      "type": "node",
+      "name": "Frontend — restart",
+      "request": "launch",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "cwd": "${workspaceFolder}/frontend",
+      "console": "integratedTerminal",
+      "preLaunchTask": "kill-port:3000"
+    },
+    {
+      "type": "node",
+      "name": "Patient — tests",
+      "request": "launch",
+      "runtimeExecutable": "mvn",
+      "runtimeArgs": ["test"],
+      "windows": {
+        "runtimeExecutable": "mvn.cmd"
+      },
+      "cwd": "${workspaceFolder}/service/patient",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "type": "node",
+      "name": "Gateway — tests",
+      "request": "launch",
+      "runtimeExecutable": "mvn",
+      "runtimeArgs": ["test"],
+      "windows": {
+        "runtimeExecutable": "mvn.cmd"
+      },
+      "cwd": "${workspaceFolder}/service/gateway",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "type": "node",
+      "name": "Medilabo — all tests",
+      "request": "launch",
+      "runtimeExecutable": "mvn",
+      "runtimeArgs": ["test"],
+      "windows": {
+        "runtimeExecutable": "mvn.cmd"
+      },
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
     }
   ],
   "compounds": [
     {
-      "name": "Medilabo — stack back (H2)",
-      "configurations": [
-        "Patient (local/H2)",
-        "Gateway (local/H2)"
-      ],
-      "stopAll": true
-    },
-    {
-      "name": "Medilabo — full (H2 + front)",
-      "configurations": [
-        "Patient (local/H2)",
-        "Gateway (local/H2)",
-        "Frontend"
-      ],
-      "stopAll": true
-    },
-    {
-      "name": "Medilabo — stack back (MySQL)",
-      "configurations": [
-        "Patient (MySQL)",
-        "Gateway (MySQL)"
-      ],
+      "name": "Medilabo Full Backend Restart",
+      "configurations": ["Patient — restart", "Gateway — restart"],
+      "preLaunchTask": "kill-ports:backend",
       "stopAll": true
     }
   ]

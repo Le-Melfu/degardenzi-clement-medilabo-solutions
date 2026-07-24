@@ -1,13 +1,18 @@
 # Patient — Medilabo Solutions
 
-Microservice CRUD dossier patient (SQL 3NF, Spring Security HTTP Basic).
+Microservice CRUD dossier patient (SQL 3NF MySQL, Spring Security HTTP Basic).
 
 ## Prérequis
 
 - Java 21
 - Maven 3.9+
-- Profil **local** (défaut) : H2 fichier
-- Profil **mysql** : MySQL `medilabo_patient` / user `medilabo`
+- MySQL : base `medilabo_patient` / user `medilabo`
+
+```powershell
+docker compose up -d mysql
+# ou
+.\scripts\setup-mysql.ps1 -RootPassword "TON_MOT_DE_PASSE_ROOT"
+```
 
 ## Commandes
 
@@ -15,10 +20,7 @@ Microservice CRUD dossier patient (SQL 3NF, Spring Security HTTP Basic).
 cd service/patient
 mvn spring-boot:run
 
-# MySQL
-mvn spring-boot:run "-Dspring-boot.run.profiles=mysql"
-
-# Tests
+# Tests (H2 in-memory, scope test uniquement)
 mvn test
 ```
 

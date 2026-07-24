@@ -12,7 +12,7 @@ Write-Host "Creating medilabo databases and user..."
 if ($LASTEXITCODE -eq 0) {
   Write-Host 'OK - databases medilabo_patient + medilabo_gateway ready'
   Write-Host 'DB user: medilabo / medilabo'
-  Write-Host 'Run with MySQL profile: mvn spring-boot:run "-Dspring-boot.run.profiles=mysql"'
+  Write-Host 'Start services: .\scripts\launch\start-all.ps1'
 } else {
   Write-Host "FAILED - check root password and MySQL80 service"
   exit 1

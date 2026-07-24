@@ -32,18 +32,38 @@ public class RequestLoggingFilter extends OncePerRequestFilter {
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain) throws ServletException, IOException {
+        String service = resolveService(request.getRequestURI());
+        String path = request.getRequestURI() + querySuffix(request);
+        String method = request.getMethod();
+        String user = currentUsername();
+
+        log.info(formatRequest(service, method, path, user));
+
         long startedAt = System.currentTimeMillis();
         filterChain.doFilter(request, response);
         long durationMs = System.currentTimeMillis() - startedAt;
 
-        int status = response.getStatus();
-        String service = resolveService(request.getRequestURI());
-        String path = request.getRequestURI() + querySuffix(request);
-
-        log.info(formatLine(service, request.getMethod(), path, status, durationMs, currentUsername()));
+        log.info(formatResponse(service, method, path, response.getStatus(), durationMs, user));
     }
 
-    private static String formatLine(
+    private static String formatRequest(String service, String method, String path, String user) {
+        AnsiColor serviceColor = serviceColor(service);
+
+        return AnsiOutput.toString(
+                AnsiColor.BRIGHT_BLUE, AnsiStyle.BOLD, "[Gateway]",
+                AnsiColor.DEFAULT, " ",
+                AnsiColor.BRIGHT_YELLOW, AnsiStyle.BOLD, "REQUEST",
+                AnsiColor.DEFAULT, " --> ",
+                serviceColor, AnsiStyle.BOLD, service,
+                AnsiColor.DEFAULT, " ",
+                AnsiColor.BRIGHT_CYAN, method,
+                AnsiColor.DEFAULT, " ",
+                AnsiColor.WHITE, path,
+                AnsiColor.DEFAULT, " user=",
+                AnsiColor.BRIGHT_MAGENTA, user);
+    }
+
+    private static String formatResponse(
             String service,
             String method,
             String path,
@@ -55,7 +75,9 @@ public class RequestLoggingFilter extends OncePerRequestFilter {
 
         return AnsiOutput.toString(
                 AnsiColor.BRIGHT_BLUE, AnsiStyle.BOLD, "[Gateway]",
-                AnsiColor.DEFAULT, " --> ",
+                AnsiColor.DEFAULT, " ",
+                AnsiColor.BRIGHT_GREEN, AnsiStyle.BOLD, "RESPONSE",
+                AnsiColor.DEFAULT, " <-- ",
                 serviceColor, AnsiStyle.BOLD, service,
                 AnsiColor.DEFAULT, " ",
                 AnsiColor.BRIGHT_CYAN, method,

@@ -130,7 +130,7 @@ export function PatientDetailPage({ mode }: PatientDetailPageProps) {
 
   return (
     <AppShell username={session.username} onLogout={handleLogout}>
-      <div className="patient-detail">
+      <div className="patient-detail page-enter">
         <header className="patient-detail__header">
           <div>
             <p className="patient-detail__back">

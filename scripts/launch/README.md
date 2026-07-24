@@ -1,5 +1,7 @@
 # Launch scripts — Medilabo
 
+Prérequis : MySQL démarré (`docker compose up -d mysql` ou `.\scripts\setup-mysql.ps1`).
+
 ## Ordre de démarrage
 
 1. Patient (8081)
@@ -9,38 +11,32 @@
 ## Scripts PowerShell (depuis la racine du repo)
 
 ```powershell
-.\scripts\launch\start-patient.ps1          # H2 local (défaut)
-.\scripts\launch\start-gateway.ps1          # H2 local (défaut)
+.\scripts\launch\start-patient.ps1
+.\scripts\launch\start-gateway.ps1
 .\scripts\launch\start-frontend.ps1
-```
 
-MySQL (après `.\scripts\setup-mysql.ps1 -RootPassword "..."`) :
-
-```powershell
-.\scripts\launch\start-patient.ps1 -Profile mysql
-.\scripts\launch\start-gateway.ps1 -Profile mysql
-```
-
-Ouvrir chaque service dans une **nouvelle fenêtre** :
-
-```powershell
-.\scripts\launch\start-all.ps1              # H2
-.\scripts\launch\start-all.ps1 -Profile mysql
+# Ou tout d'un coup :
+.\scripts\launch\start-all.ps1
 ```
 
 ## Cursor / VS Code
 
-Menu **Run and Debug** (Ctrl+Shift+D) :
+**Run and Debug** :
 
 | Config | Rôle |
 |--------|------|
-| Patient | Microservice patient |
-| Gateway | API gateway |
-| Frontend | UI React |
-| Medilabo — stack back | Patient + Gateway |
-| Medilabo — full | Back + Frontend |
+| `Patient` / `Gateway` / `Frontend` | Premier démarrage |
+| `Patient — restart` | Tue le port 8081 puis relance |
+| `Gateway — restart` | Tue le port 8080 puis relance |
+| `Frontend — restart` | Tue le port 3000 puis relance |
+| `Medilabo Full Backend Restart` | Tue 8080+8081 puis relance Patient + Gateway |
+| `Patient — tests` | `mvn test` patient (terminal dédié) |
+| `Gateway — tests` | `mvn test` gateway (terminal dédié) |
+| `Medilabo — all tests` | `mvn test` à la racine (gateway + patient) |
 
-Ou **Terminal → Run Task…** : `frontend:dev`, `patient:run`, etc.
+Les configs `— restart` killent le process qui écoute le port (même hors debugger), puis relancent un nouveau process.
+
+Ou **Terminal → Run Task…** : `patient:test` / `gateway:test` / `medilabo:test`.
 
 ## URLs
 

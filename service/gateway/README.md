@@ -7,8 +7,7 @@ Point d’entrée API (Spring Cloud Gateway MVC). Auth HTTP Basic, routage vers 
 - Java 21
 - Maven 3.9+
 - Service **patient** démarré sur `http://localhost:8081`
-- Profil **local** (défaut) : H2 fichier
-- Profil **mysql** : MySQL `medilabo_gateway` / user `medilabo`
+- MySQL : base `medilabo_gateway` / user `medilabo`
 
 ## Commandes
 
@@ -16,10 +15,7 @@ Point d’entrée API (Spring Cloud Gateway MVC). Auth HTTP Basic, routage vers 
 cd service/gateway
 mvn spring-boot:run
 
-# MySQL
-mvn spring-boot:run "-Dspring-boot.run.profiles=mysql"
-
-# Tests
+# Tests (H2 in-memory, scope test uniquement)
 mvn test
 
 # Package JAR
@@ -55,8 +51,8 @@ Service : **http://localhost:8080**
 ## Logging des appels
 
 ```text
-[Gateway] --> gateway GET /auth/me -> 200 (12 ms) user=doctor
-[Gateway] --> patient GET /patient/1 -> 200 (45 ms) user=doctor
+[Gateway] REQUEST  --> patient GET /patient/1 user=doctor
+[Gateway] RESPONSE <-- patient GET /patient/1 -> 200 (45 ms) user=doctor
 ```
 
 Couleurs console (ANSI) :

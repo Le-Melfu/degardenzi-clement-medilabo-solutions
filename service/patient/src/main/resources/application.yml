@@ -4,9 +4,14 @@ server:
 spring:
   application:
     name: patient
-  profiles:
-    # local = H2 fichier | mysql = MySQL (compte medilabo)
-    default: local
+  output:
+    ansi:
+      enabled: ALWAYS
+  datasource:
+    url: jdbc:mysql://localhost:3306/medilabo_patient?useSSL=false&allowPublicKeyRetrieval=true
+    username: medilabo
+    password: medilabo
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     open-in-view: false
     hibernate:
@@ -15,10 +20,11 @@ spring:
 
 logging:
   pattern:
-    # Thread aligné à gauche (Logback ne centre pas) — évite [           main]
-    console: "%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd'T'HH:mm:ss.SSSXXX}}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr(${LOGGED_APPLICATION_NAME:-}){faint}%clr([%-15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"
+    # %cthread{15} = thread centré (converter custom CenteredThreadConverter)
+    console: "%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd'T'HH:mm:ss.SSSXXX}}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr(${LOGGED_APPLICATION_NAME:-}){faint}%clr([%cthread{15}]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"
   level:
     root: INFO
+    com.medilabo.patient.logging: INFO
     org.hibernate: WARN
     com.zaxxer.hikari: WARN
     org.springframework.security: WARN

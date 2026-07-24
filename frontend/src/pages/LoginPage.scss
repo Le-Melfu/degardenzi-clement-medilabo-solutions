@@ -4,6 +4,6 @@
   place-items: center;
   padding: var(--space-5);
   background:
-    radial-gradient(circle at top left, rgba(15, 107, 99, 0.12), transparent 40%),
-    linear-gradient(160deg, #e8f0ee 0%, var(--color-bg) 55%, #e4ebe9 100%);
+    radial-gradient(circle at top left, rgba(var(--color-primary-rgb), 0.12), transparent 40%),
+    linear-gradient(160deg, #f7efed 0%, var(--color-bg) 55%, #efe8e6 100%);
 }
