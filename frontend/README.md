@@ -23,9 +23,10 @@ npm run build
 npm run preview
 ```
 
-## Proxy Vite (dev)
+## API
 
-Les appels `/auth` et `/patient` sont proxifiés vers `http://localhost:8080`.
+Le front appelle **directement** la gateway : `http://localhost:8080`  
+(config : `VITE_API_BASE_URL` dans `.env`, CORS autorisé pour `http://localhost:3000`).
 
 ## Connexion
 

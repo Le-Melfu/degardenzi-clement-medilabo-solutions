@@ -1,7 +1,7 @@
 import type { AuthMeResponse, LoginCredentials, Session } from '../types/auth'
 import { clearSession, readSession, toBasicCredentials, writeSession } from './sessionStorage'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? ''
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8080'
 
 export function getSession(): Session | null {
   return readSession()
