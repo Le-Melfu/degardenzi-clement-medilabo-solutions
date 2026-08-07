@@ -4,6 +4,38 @@
   gap: var(--space-5);
   max-width: 40rem;
 
+  &--dossier {
+    max-width: none;
+    flex: 1;
+    min-height: 0;
+    height: 100%;
+  }
+
+  &__header {
+    flex-shrink: 0;
+  }
+
+  &__layout {
+    display: grid;
+    grid-template-columns: minmax(16rem, 22rem) minmax(0, 1fr);
+    gap: var(--space-5);
+    flex: 1;
+    min-height: 0;
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+      overflow: auto;
+    }
+  }
+
+  &__sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    min-height: 0;
+    overflow: auto;
+  }
+
   &__back a {
     color: var(--color-primary);
     text-decoration: none;
@@ -140,6 +172,101 @@
     display: flex;
     justify-content: flex-end;
     gap: var(--space-3);
+  }
+
+  &__notes {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    min-height: 0;
+    height: 100%;
+    padding: var(--space-5);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+
+    @media (max-width: 900px) {
+      height: auto;
+      max-height: 70vh;
+    }
+  }
+
+  &__notes-title {
+    margin: 0;
+    flex-shrink: 0;
+    font-size: 1.15rem;
+    font-weight: 700;
+  }
+
+  &__notes-scroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding-right: var(--space-1);
+  }
+
+  &__notes-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__note {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin: 0;
+    padding: var(--space-3) var(--space-4);
+    background: #f7faf9;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+  }
+
+  &__note-date {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  &__note-text {
+    margin: 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+    line-height: 1.45;
+  }
+
+  &__notes-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    flex-shrink: 0;
+    padding-top: var(--space-2);
+    border-top: 1px solid var(--color-border);
+  }
+
+  &__notes-textarea {
+    width: 100%;
+    min-height: 4.5rem;
+    max-height: 8rem;
+    padding: var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font: inherit;
+    resize: vertical;
+    white-space: pre-wrap;
+
+    &:focus {
+      outline: 2px solid var(--color-primary-soft);
+      border-color: var(--color-primary);
+    }
   }
 }
 

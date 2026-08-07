@@ -11,6 +11,14 @@
     },
     {
       "type": "java",
+      "name": "Notes",
+      "request": "launch",
+      "mainClass": "com.medilabo.notes.NotesApplication",
+      "projectName": "notes",
+      "cwd": "${workspaceFolder}/service/notes"
+    },
+    {
+      "type": "java",
       "name": "Gateway",
       "request": "launch",
       "mainClass": "com.medilabo.gateway.GatewayApplication",
@@ -34,6 +42,15 @@
       "projectName": "patient",
       "cwd": "${workspaceFolder}/service/patient",
       "preLaunchTask": "kill-port:8081"
+    },
+    {
+      "type": "java",
+      "name": "Notes — restart",
+      "request": "launch",
+      "mainClass": "com.medilabo.notes.NotesApplication",
+      "projectName": "notes",
+      "cwd": "${workspaceFolder}/service/notes",
+      "preLaunchTask": "kill-port:8082"
     },
     {
       "type": "java",
@@ -97,7 +114,7 @@
   "compounds": [
     {
       "name": "Medilabo Full Backend Restart",
-      "configurations": ["Patient — restart", "Gateway — restart"],
+      "configurations": ["Patient — restart", "Notes — restart", "Gateway — restart"],
       "preLaunchTask": "kill-ports:backend",
       "stopAll": true
     }

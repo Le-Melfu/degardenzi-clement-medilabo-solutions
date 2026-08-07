@@ -15,5 +15,32 @@ services:
       timeout: 5s
       retries: 10
 
+  mongo:
+    image: mongo:7.0
+    container_name: medilabo-mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_DATABASE: medilabo_notes
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./docker/mongo/init-user.js:/docker-entrypoint-initdb.d/init-user.js:ro
+      - medilabo-mongo-data:/data/db
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mongosh",
+          "-u", "root",
+          "-p", "root",
+          "--authenticationDatabase", "admin",
+          "--eval", "db.adminCommand('ping')",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
 volumes:
   medilabo-mysql-data:
+  medilabo-mongo-data:

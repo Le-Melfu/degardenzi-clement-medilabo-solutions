@@ -1,0 +1,9 @@
+com\medilabo\notes\repository\NoteRepository.class
+com\medilabo\notes\model\Note.class
+com\medilabo\notes\config\NoteDataLoader.class
+com\medilabo\notes\service\NoteService.class
+com\medilabo\notes\controller\NoteController.class
+com\medilabo\notes\dto\NoteResponse.class
+com\medilabo\notes\config\SecurityConfig.class
+com\medilabo\notes\NotesApplication.class
+com\medilabo\notes\dto\NoteRequest.class

@@ -10,6 +10,14 @@ export function formatBirthDate(isoDate: string): string {
   }).format(new Date(isoDate))
 }
 
+export function formatNoteDate(isoDate: string): string {
+  return new Intl.DateTimeFormat('fr-FR', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  }).format(new Date(isoDate))
+}
+
 export function calcAge(isoDate: string): number {
   const birth = new Date(isoDate)
   const today = new Date()

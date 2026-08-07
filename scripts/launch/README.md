@@ -1,17 +1,19 @@
 # Launch scripts — Medilabo
 
-Prérequis : MySQL démarré (`docker compose up -d mysql` ou `.\scripts\setup-mysql.ps1`).
+Prérequis : MySQL démarré (`.\scripts\setup-mysql.ps1` ou service Windows) et MongoDB (`docker compose up -d mongo`) avec auth (compte `medilabo` / `medilabo`).
 
 ## Ordre de démarrage
 
 1. Patient (8081)
-2. Gateway (8080)
-3. Frontend (3000)
+2. Notes (8082)
+3. Gateway (8080)
+4. Frontend (3000)
 
 ## Scripts PowerShell (depuis la racine du repo)
 
 ```powershell
 .\scripts\launch\start-patient.ps1
+.\scripts\launch\start-notes.ps1
 .\scripts\launch\start-gateway.ps1
 .\scripts\launch\start-frontend.ps1
 
@@ -25,14 +27,15 @@ Prérequis : MySQL démarré (`docker compose up -d mysql` ou `.\scripts\setup-m
 
 | Config | Rôle |
 |--------|------|
-| `Patient` / `Gateway` / `Frontend` | Premier démarrage |
+| `Patient` / `Notes` / `Gateway` / `Frontend` | Premier démarrage |
 | `Patient — restart` | Tue le port 8081 puis relance |
+| `Notes — restart` | Tue le port 8082 puis relance |
 | `Gateway — restart` | Tue le port 8080 puis relance |
 | `Frontend — restart` | Tue le port 3000 puis relance |
-| `Medilabo Full Backend Restart` | Tue 8080+8081 puis relance Patient + Gateway |
+| `Medilabo Full Backend Restart` | Tue 8080+8081+8082 puis relance Patient + Notes + Gateway |
 | `Patient — tests` | `mvn test` patient (terminal dédié) |
 | `Gateway — tests` | `mvn test` gateway (terminal dédié) |
-| `Medilabo — all tests` | `mvn test` à la racine (gateway + patient) |
+| `Medilabo — all tests` | `mvn test` à la racine (gateway + patient + notes) |
 
 Les configs `— restart` killent le process qui écoute le port (même hors debugger), puis relancent un nouveau process.
 
@@ -44,6 +47,19 @@ Ou **Terminal → Run Task…** : `patient:test` / `gateway:test` / `medilabo:te
 |---------|-----|
 | Gateway | http://localhost:8080 |
 | Patient | http://localhost:8081 |
+| Notes | http://localhost:8082 |
 | Frontend | http://localhost:3000 |
 
 Login front : `doctor` / `password`
+
+## MongoDB (compte de service)
+
+| Rôle | User | Password | authSource |
+|------|------|----------|------------|
+| Admin Docker | `root` | `root` | `admin` |
+| App (`service/notes`) | `medilabo` | `medilabo` | `medilabo_notes` |
+
+```powershell
+docker exec -it medilabo-mongo mongosh medilabo_notes -u medilabo -p medilabo --authenticationDatabase medilabo_notes
+```
+
