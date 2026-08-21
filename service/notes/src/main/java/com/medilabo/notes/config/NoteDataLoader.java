@@ -3,11 +3,13 @@ package com.medilabo.notes.config;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
+import java.util.Objects;
 
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 import com.medilabo.notes.model.Note;
@@ -66,7 +68,7 @@ public class NoteDataLoader implements CommandLineRunner {
                 createdAt = new ObjectId(note.getId()).getDate().toInstant();
             }
             note.setCreatedAt(createdAt);
-            noteRepository.save(note);
+            noteRepository.save(Objects.requireNonNull(note));
             updated++;
         }
         if (updated > 0) {
@@ -74,6 +76,7 @@ public class NoteDataLoader implements CommandLineRunner {
         }
     }
 
+    @NonNull
     private Note note(Long patId, LocalDate date, String text) {
         Note note = new Note();
         note.setPatId(patId);
