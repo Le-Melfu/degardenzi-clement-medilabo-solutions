@@ -6,10 +6,6 @@ import org.springframework.stereotype.Component;
 public class RiskCalculator {
 
     public RiskLevel assess(int age, String gender, int triggerCount) {
-        if (triggerCount == 0) {
-            return RiskLevel.NONE;
-        }
-
         if (age >= 30) {
             return assessThirtyOrOver(triggerCount);
         }
