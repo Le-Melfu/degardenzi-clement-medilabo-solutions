@@ -9,7 +9,7 @@ import { getRisk } from '../services/riskService'
 import { useAuth } from '../session/AuthContext'
 import type { Note } from '../types/note'
 import type { Patient } from '../types/patient'
-import { riskModifier, type RiskAssessment } from '../types/risk'
+import { riskLabel, riskModifier, type RiskAssessment } from '../types/risk'
 import {
   calcAge,
   formatBirthDate,
@@ -158,67 +158,71 @@ export function PatientViewPage() {
         {!loading && patient ? (
           <div className="patient-detail__layout">
             <aside className="patient-detail__sidebar">
-              <section className="patient-detail__hero">
-                <span className="patient-detail__avatar" aria-hidden>
-                  {patientInitials(patient.firstName, patient.lastName)}
-                </span>
-                <div>
-                  <h3 className="patient-detail__name">
+              <section className="patient-detail__identity" aria-labelledby="patient-identity-heading">
+                <h3 id="patient-identity-heading" className="patient-detail__identity-title">
+                  Identité
+                </h3>
+                <div className="patient-detail__hero">
+                  <span className="patient-detail__avatar" aria-hidden>
+                    {patientInitials(patient.firstName, patient.lastName)}
+                  </span>
+                  <h4 className="patient-detail__name">
                     {patient.lastName} {patient.firstName}
-                  </h3>
-                  <p className="patient-detail__meta">
-                    {formatGender(patient.gender)} · {calcAge(patient.birthDate)} ans
-                  </p>
-                  {risk ? (
-                    <p className="patient-detail__risk">
+                  </h4>
+                </div>
+                <dl className="patient-detail__view">
+                  <div className="patient-detail__field">
+                    <dt>Date de naissance</dt>
+                    <dd>
+                      {formatBirthDate(patient.birthDate)}{' '}
+                      <span className="patient-detail__hint">({calcAge(patient.birthDate)} ans)</span>
+                    </dd>
+                  </div>
+                  <div className="patient-detail__field">
+                    <dt>Genre</dt>
+                    <dd>
                       <span
-                        className={`patient-detail__risk-badge patient-detail__risk-badge--${riskModifier(risk.risk)}`}
+                        className={`patient-detail__chip patient-detail__chip--${patient.gender.toLowerCase()}`}
                       >
-                        {risk.risk}
+                        {formatGender(patient.gender)}
                       </span>
-                    </p>
-                  ) : null}
-                  {riskError ? <p className="patient-detail__error">{riskError}</p> : null}
+                    </dd>
+                  </div>
+                  <div className="patient-detail__field">
+                    <dt>Adresse</dt>
+                    <dd>{patient.address || '—'}</dd>
+                  </div>
+                  <div className="patient-detail__field">
+                    <dt>Téléphone</dt>
+                    <dd>{patient.phone || '—'}</dd>
+                  </div>
+                </dl>
+                <div className="patient-detail__actions">
+                  <Button type="button" onClick={() => navigate(`/patients/${patient.id}/edit`)}>
+                    Modifier
+                  </Button>
                 </div>
               </section>
 
-              <dl className="patient-detail__view">
-                <div className="patient-detail__field">
-                  <dt>Nom</dt>
-                  <dd>{patient.lastName}</dd>
-                </div>
-                <div className="patient-detail__field">
-                  <dt>Prénom</dt>
-                  <dd>{patient.firstName}</dd>
-                </div>
-                <div className="patient-detail__field">
-                  <dt>Date de naissance</dt>
-                  <dd>{formatBirthDate(patient.birthDate)}</dd>
-                </div>
-                <div className="patient-detail__field">
-                  <dt>Genre</dt>
-                  <dd>
-                    <span
-                      className={`patient-detail__chip patient-detail__chip--${patient.gender.toLowerCase()}`}
-                    >
-                      {formatGender(patient.gender)}
-                    </span>
-                  </dd>
-                </div>
-                <div className="patient-detail__field">
-                  <dt>Adresse</dt>
-                  <dd>{patient.address || '—'}</dd>
-                </div>
-                <div className="patient-detail__field">
-                  <dt>Téléphone</dt>
-                  <dd>{patient.phone || '—'}</dd>
-                </div>
-              </dl>
-              <div className="patient-detail__actions">
-                <Button type="button" onClick={() => navigate(`/patients/${patient.id}/edit`)}>
-                  Modifier
-                </Button>
-              </div>
+              <section
+                className={`patient-detail__risk-card${risk ? ` patient-detail__risk-card--${riskModifier(risk.risk)}` : ''}`}
+                aria-labelledby="patient-risk-heading"
+              >
+                <h3 id="patient-risk-heading" className="patient-detail__risk-title">
+                  Risque de diabète
+                </h3>
+                {risk ? (
+                  <span
+                    className={`patient-detail__risk-badge patient-detail__risk-badge--${riskModifier(risk.risk)}`}
+                  >
+                    {riskLabel(risk.risk)}
+                  </span>
+                ) : null}
+                {riskError ? <p className="patient-detail__error">{riskError}</p> : null}
+                {!risk && !riskError ? (
+                  <p className="patient-detail__status">Chargement…</p>
+                ) : null}
+              </section>
             </aside>
 
             <section className="patient-detail__notes">

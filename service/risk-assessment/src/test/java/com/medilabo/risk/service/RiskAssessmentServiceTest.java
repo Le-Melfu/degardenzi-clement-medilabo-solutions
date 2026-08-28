@@ -1,8 +1,6 @@
 package com.medilabo.risk.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -19,7 +17,6 @@ import com.medilabo.risk.client.NoteDto;
 import com.medilabo.risk.client.NotesClient;
 import com.medilabo.risk.client.PatientClient;
 import com.medilabo.risk.client.PatientDto;
-import com.medilabo.risk.domain.DetectionMode;
 import com.medilabo.risk.domain.RiskCalculator;
 import com.medilabo.risk.domain.RiskLevel;
 import com.medilabo.risk.domain.TriggerDetector;
@@ -43,15 +40,15 @@ class RiskAssessmentServiceTest {
     }
 
     @Test
-    void zeroTriggersSkipsPatientCall() {
+    void noTriggerStillLoadsPatientAndReturnsNone() {
         when(notesClient.findByPatId(9L)).thenReturn(List.of(note("RAS, se sent bien.")));
+        when(patientClient.findById(9L)).thenReturn(patient("Test", "Clean", LocalDate.of(1966, 12, 31), "F"));
 
-        RiskAssessmentResponse response = service.assess(9L, DetectionMode.CLINICAL);
+        RiskAssessmentResponse response = service.assess(9L);
 
         assertEquals(RiskLevel.NONE, response.getRisk());
-        assertEquals(0, response.getTriggerCount());
-        assertNull(response.getFirstName());
-        verify(patientClient, never()).findById(9L);
+        assertEquals("Clean", response.getLastName());
+        verify(patientClient).findById(9L);
     }
 
     @Test
@@ -60,10 +57,9 @@ class RiskAssessmentServiceTest {
                 note("Poids égal ou inférieur au poids recommandé.")));
         when(patientClient.findById(1L)).thenReturn(patient("Test", "TestNone", LocalDate.of(1966, 12, 31), "F"));
 
-        RiskAssessmentResponse response = service.assess(1L, DetectionMode.CLINICAL);
+        RiskAssessmentResponse response = service.assess(1L);
 
         assertEquals(RiskLevel.NONE, response.getRisk());
-        assertEquals(1, response.getTriggerCount());
         assertEquals("TestNone", response.getLastName());
         verify(patientClient).findById(1L);
     }

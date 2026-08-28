@@ -7,7 +7,10 @@
       "request": "launch",
       "mainClass": "com.medilabo.patient.PatientApplication",
       "projectName": "patient",
-      "cwd": "${workspaceFolder}/service/patient"
+      "cwd": "${workspaceFolder}/service/patient",
+      "console": "internalConsole",
+      "shortenCommandLine": "argfile",
+      "timeout": 180000
     },
     {
       "type": "java",
@@ -15,7 +18,10 @@
       "request": "launch",
       "mainClass": "com.medilabo.notes.NotesApplication",
       "projectName": "notes",
-      "cwd": "${workspaceFolder}/service/notes"
+      "cwd": "${workspaceFolder}/service/notes",
+      "console": "internalConsole",
+      "shortenCommandLine": "argfile",
+      "timeout": 180000
     },
     {
       "type": "java",
@@ -23,7 +29,10 @@
       "request": "launch",
       "mainClass": "com.medilabo.risk.RiskAssessmentApplication",
       "projectName": "riskassessment",
-      "cwd": "${workspaceFolder}/service/risk-assessment"
+      "cwd": "${workspaceFolder}/service/risk-assessment",
+      "console": "internalConsole",
+      "shortenCommandLine": "argfile",
+      "timeout": 180000
     },
     {
       "type": "java",
@@ -31,7 +40,10 @@
       "request": "launch",
       "mainClass": "com.medilabo.gateway.GatewayApplication",
       "projectName": "gateway",
-      "cwd": "${workspaceFolder}/service/gateway"
+      "cwd": "${workspaceFolder}/service/gateway",
+      "console": "internalConsole",
+      "shortenCommandLine": "argfile",
+      "timeout": 180000
     },
     {
       "type": "node",
@@ -49,7 +61,10 @@
       "mainClass": "com.medilabo.patient.PatientApplication",
       "projectName": "patient",
       "cwd": "${workspaceFolder}/service/patient",
-      "preLaunchTask": "kill-port:8081"
+      "preLaunchTask": "kill-port:8081",
+      "console": "internalConsole",
+      "shortenCommandLine": "argfile",
+      "timeout": 180000
     },
     {
       "type": "java",
@@ -58,7 +73,10 @@
       "mainClass": "com.medilabo.notes.NotesApplication",
       "projectName": "notes",
       "cwd": "${workspaceFolder}/service/notes",
-      "preLaunchTask": "kill-port:8082"
+      "preLaunchTask": "kill-port:8082",
+      "console": "internalConsole",
+      "shortenCommandLine": "argfile",
+      "timeout": 180000
     },
     {
       "type": "java",
@@ -67,7 +85,10 @@
       "mainClass": "com.medilabo.risk.RiskAssessmentApplication",
       "projectName": "riskassessment",
       "cwd": "${workspaceFolder}/service/risk-assessment",
-      "preLaunchTask": "kill-port:8083"
+      "preLaunchTask": "kill-port:8083",
+      "console": "internalConsole",
+      "shortenCommandLine": "argfile",
+      "timeout": 180000
     },
     {
       "type": "java",
@@ -76,7 +97,10 @@
       "mainClass": "com.medilabo.gateway.GatewayApplication",
       "projectName": "gateway",
       "cwd": "${workspaceFolder}/service/gateway",
-      "preLaunchTask": "kill-port:8080"
+      "preLaunchTask": "kill-port:8080",
+      "console": "internalConsole",
+      "shortenCommandLine": "argfile",
+      "timeout": 180000
     },
     {
       "type": "node",

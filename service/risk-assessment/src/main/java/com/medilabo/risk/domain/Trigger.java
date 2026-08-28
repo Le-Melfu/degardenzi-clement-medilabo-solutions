@@ -10,9 +10,7 @@ public enum Trigger {
     FUMEUR("Fumeur", "\\bfum(?:euse|eur|er|e)s?\\b"),
     ANORMAL("Anormal", "\\banormal(?:e|es|aux)?\\b"),
     CHOLESTEROL("Cholestérol", "\\bcholestérol\\b"),
-    VERTIGES("Vertiges", "\\bvertiges?\\b",
-            "\\bpertes?\\s+d['’]équilibres?\\b",
-            "\\bdésorientations?\\b"),
+    VERTIGES("Vertiges", "\\bvertiges?\\b"),
     RECHUTE("Rechute", "\\brechute\\b"),
     REACTION("Réaction", "\\bréaction\\b"),
     ANTICORPS("Anticorps", "\\banticorps\\b");
@@ -22,15 +20,10 @@ public enum Trigger {
 
     private final String label;
     private final Pattern pattern;
-    private final Pattern[] clinicalPatterns;
 
-    Trigger(String label, String regex, String... clinicalRegexes) {
+    Trigger(String label, String regex) {
         this.label = label;
         this.pattern = Pattern.compile(regex, FLAGS);
-        this.clinicalPatterns = new Pattern[clinicalRegexes.length];
-        for (int i = 0; i < clinicalRegexes.length; i++) {
-            this.clinicalPatterns[i] = Pattern.compile(clinicalRegexes[i], FLAGS);
-        }
     }
 
     public String getLabel() {
@@ -39,9 +32,5 @@ public enum Trigger {
 
     public Pattern getPattern() {
         return pattern;
-    }
-
-    public Pattern[] getClinicalPatterns() {
-        return clinicalPatterns;
     }
 }

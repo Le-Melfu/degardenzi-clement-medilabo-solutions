@@ -4,11 +4,12 @@ D:\005-DEV\02_DEVELOPPEUR_JAVA\09_Medilabo_Solutions\repository\degardenzi-cleme
 D:\005-DEV\02_DEVELOPPEUR_JAVA\09_Medilabo_Solutions\repository\degardenzi-clement-medilabo-solutions\service\risk-assessment\src\main\java\com\medilabo\risk\client\PatientDto.java
 D:\005-DEV\02_DEVELOPPEUR_JAVA\09_Medilabo_Solutions\repository\degardenzi-clement-medilabo-solutions\service\risk-assessment\src\main\java\com\medilabo\risk\config\SecurityConfig.java
 D:\005-DEV\02_DEVELOPPEUR_JAVA\09_Medilabo_Solutions\repository\degardenzi-clement-medilabo-solutions\service\risk-assessment\src\main\java\com\medilabo\risk\controller\RiskAssessmentController.java
-D:\005-DEV\02_DEVELOPPEUR_JAVA\09_Medilabo_Solutions\repository\degardenzi-clement-medilabo-solutions\service\risk-assessment\src\main\java\com\medilabo\risk\domain\DetectionMode.java
 D:\005-DEV\02_DEVELOPPEUR_JAVA\09_Medilabo_Solutions\repository\degardenzi-clement-medilabo-solutions\service\risk-assessment\src\main\java\com\medilabo\risk\domain\RiskCalculator.java
 D:\005-DEV\02_DEVELOPPEUR_JAVA\09_Medilabo_Solutions\repository\degardenzi-clement-medilabo-solutions\service\risk-assessment\src\main\java\com\medilabo\risk\domain\RiskLevel.java
 D:\005-DEV\02_DEVELOPPEUR_JAVA\09_Medilabo_Solutions\repository\degardenzi-clement-medilabo-solutions\service\risk-assessment\src\main\java\com\medilabo\risk\domain\Trigger.java
 D:\005-DEV\02_DEVELOPPEUR_JAVA\09_Medilabo_Solutions\repository\degardenzi-clement-medilabo-solutions\service\risk-assessment\src\main\java\com\medilabo\risk\domain\TriggerDetector.java
 D:\005-DEV\02_DEVELOPPEUR_JAVA\09_Medilabo_Solutions\repository\degardenzi-clement-medilabo-solutions\service\risk-assessment\src\main\java\com\medilabo\risk\dto\RiskAssessmentResponse.java
+D:\005-DEV\02_DEVELOPPEUR_JAVA\09_Medilabo_Solutions\repository\degardenzi-clement-medilabo-solutions\service\risk-assessment\src\main\java\com\medilabo\risk\logging\CenteredThreadConverter.java
+D:\005-DEV\02_DEVELOPPEUR_JAVA\09_Medilabo_Solutions\repository\degardenzi-clement-medilabo-solutions\service\risk-assessment\src\main\java\com\medilabo\risk\logging\RequestLoggingFilter.java
 D:\005-DEV\02_DEVELOPPEUR_JAVA\09_Medilabo_Solutions\repository\degardenzi-clement-medilabo-solutions\service\risk-assessment\src\main\java\com\medilabo\risk\RiskAssessmentApplication.java
 D:\005-DEV\02_DEVELOPPEUR_JAVA\09_Medilabo_Solutions\repository\degardenzi-clement-medilabo-solutions\service\risk-assessment\src\main\java\com\medilabo\risk\service\RiskAssessmentService.java

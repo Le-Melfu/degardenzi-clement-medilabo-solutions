@@ -57,9 +57,21 @@
       }
     },
     {
+      "label": "infra:up",
+      "type": "shell",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File \"${workspaceFolder}/scripts/launch/start-infra.ps1\"",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
       "label": "kill-ports:backend",
+      "type": "shell",
+      "command": "exit 0",
       "dependsOrder": "parallel",
-      "dependsOn": ["kill-port:8081", "kill-port:8082", "kill-port:8083", "kill-port:8080"],
+      "dependsOn": ["infra:up", "kill-port:8081", "kill-port:8082", "kill-port:8083", "kill-port:8080"],
       "problemMatcher": [],
       "presentation": {
         "reveal": "silent",

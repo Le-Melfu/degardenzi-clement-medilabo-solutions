@@ -5,7 +5,7 @@ Prérequis : MySQL démarré (`.\scripts\setup-mysql.ps1` ou service Windows) et
 ## Ordre de démarrage
 
 1. Patient (8081)
-2. Notes (8082)
+2. Notes (8082) — **Mongo doit tourner** (`docker compose up -d mongo`)
 3. Risk assessment (8083)
 4. Gateway (8080)
 5. Frontend (3000)
@@ -13,6 +13,7 @@ Prérequis : MySQL démarré (`.\scripts\setup-mysql.ps1` ou service Windows) et
 ## Scripts PowerShell (depuis la racine du repo)
 
 ```powershell
+.\scripts\launch\start-infra.ps1
 .\scripts\launch\start-patient.ps1
 .\scripts\launch\start-notes.ps1
 .\scripts\launch\start-risk-assessment.ps1

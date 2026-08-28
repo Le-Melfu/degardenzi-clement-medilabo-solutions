@@ -3,13 +3,8 @@ export type RiskLevel = 'None' | 'Borderline' | 'In Danger' | 'Early onset'
 export type RiskAssessment = {
   patId: number
   risk: RiskLevel
-  triggerCount: number
-  triggers: string[]
-  mode: 'clinical' | 'strict'
   firstName?: string
   lastName?: string
-  age?: number
-  gender?: string
 }
 
 export function riskModifier(risk: RiskLevel): string {
@@ -20,4 +15,17 @@ export function riskModifier(risk: RiskLevel): string {
     return 'early-onset'
   }
   return risk.toLowerCase()
+}
+
+export function riskLabel(risk: RiskLevel): string {
+  if (risk === 'None') {
+    return 'Aucun risque'
+  }
+  if (risk === 'Borderline') {
+    return 'Risque limité'
+  }
+  if (risk === 'In Danger') {
+    return 'Danger'
+  }
+  return 'Apparition précoce'
 }

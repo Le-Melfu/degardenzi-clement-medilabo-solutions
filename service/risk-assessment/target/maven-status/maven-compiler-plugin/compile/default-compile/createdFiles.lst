@@ -5,7 +5,6 @@ com\medilabo\risk\client\PatientDto.class
 com\medilabo\risk\domain\TriggerDetector.class
 com\medilabo\risk\client\NotesClient$1.class
 com\medilabo\risk\controller\RiskAssessmentController.class
-com\medilabo\risk\domain\DetectionMode.class
 com\medilabo\risk\dto\RiskAssessmentResponse.class
 com\medilabo\risk\RiskAssessmentApplication.class
 com\medilabo\risk\config\SecurityConfig.class

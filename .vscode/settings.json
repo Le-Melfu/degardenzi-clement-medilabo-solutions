@@ -2,6 +2,18 @@
   "java.compile.nullAnalysis.mode": "automatic",
   "java.configuration.updateBuildConfiguration": "automatic",
   "java.import.maven.enabled": true,
+  "java.debug.settings.timeout": 180000,
+  "java.debug.settings.console": "internalConsole",
+  "java.debug.settings.shortenCommandLine": "argfile",
+  "java.project.resourceFilters": [
+    "node_modules",
+    "\\.git",
+    "frontend/dist"
+  ]
+}
+  "java.compile.nullAnalysis.mode": "automatic",
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "java.import.maven.enabled": true,
   "java.project.resourceFilters": [
     "node_modules",
     "\\.git",

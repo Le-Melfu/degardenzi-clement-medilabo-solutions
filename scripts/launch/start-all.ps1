@@ -10,7 +10,14 @@ function Start-ServiceWindow([string]$Title, [string]$ScriptPath) {
   )
 }
 
-Write-Host "Launching Medilabo stack (MySQL + MongoDB) in separate windows..."
+Write-Host "Starting MySQL + MongoDB..."
+& (Join-Path $launchDir "start-infra.ps1")
+if ($LASTEXITCODE -ne 0) {
+  Write-Host "Infra failed. Notes needs Mongo, Patient/Gateway need MySQL."
+  exit $LASTEXITCODE
+}
+
+Write-Host "Launching Medilabo backends in separate windows..."
 Start-ServiceWindow "Patient" (Join-Path $launchDir "start-patient.ps1")
 Start-Sleep -Seconds 3
 Start-ServiceWindow "Notes" (Join-Path $launchDir "start-notes.ps1")

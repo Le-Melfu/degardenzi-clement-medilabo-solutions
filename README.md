@@ -60,23 +60,24 @@ Bases : `medilabo_patient`, `medilabo_gateway` — user DB : `medilabo` / `medil
 
 `GET /risk/{patId}` via la gateway (`http://localhost:8080`). HTTP Basic `doctor` / `password`.
 
-Le microservice `risk-assessment` (8083) n’a pas de BDD. Il appelle **directement** notes (toujours) puis patient (seulement s’il y a au moins un déclencheur), avec le compte `service` / `service`.
+Le microservice `risk-assessment` (8083) n’a pas de BDD. Il appelle **directement** notes et patient, avec le compte `service` / `service`.
 
 Niveaux : `None`, `Borderline`, `In Danger`, `Early onset`.
 
 ## Green Code
 
-Le client demande une politique de sobriété numérique. Les pistes ci-dessous sont **documentées, pas toutes appliquées** — sauf celles déjà dans le code (pas de BDD risque, court-circuit GET patient si 0 déclencheur).
+Le client demande une politique de sobriété numérique. Les pistes ci-dessous sont **documentées, pas toutes appliquées**.
 
 ### Déjà en place sur ce projet
 
 - **Pas de base pour `risk-assessment`** : pas de stockage redondant des dossiers / notes, pas de synchro à maintenir.
-- **GET patient conditionnel** : si aucune note ne contient de déclencheur, le calcul s’arrête à `None` sans second appel HTTP.
 - **Images Docker JRE** (pas JDK) pour l’exécution : moins de couches et d’outils inutiles en runtime.
-- **Pas de lib NLP** (stemmer, WordNet, spaCy) : la détection tient en regex bornées, plus prévisibles et plus légères.
+- **Pas de lib NLP** : la détection reste une recherche insensible à la casse des 11 termes de la spec.
 
 ### Pistes d’amélioration (non implémentées)
 
+- **Détection clinique** (hors spec, à mentionner en soutenance) : ignorer les négations (« ne fume pas »), ajouter des synonymes (vertiges → perte d’équilibre), ou un second mode `clinical` vs `strict`.
+- **GET patient conditionnel** : si 0 déclencheur, `None` sans second appel HTTP.
 - **Backend** : mutualiser le chargement des notes (aujourd’hui le front les affiche *et* risk-assessment les relit) via un contrat interne plus fin, ou un cache court TTL si la charge le justifie ; pagination si les historiques grossissent.
 - **Bases** : index uniquement sur les colonnes / champs réellement filtrés (`patId` côté notes) ; éviter `show-sql` et les logs verbeux hors debug.
 - **Frontend** : ne pas refetch patient+notes+risque en triple si une seule ressource a changé (après ajout de note, seul le risque et la liste des notes bougent — déjà le cas).
