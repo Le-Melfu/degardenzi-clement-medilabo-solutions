@@ -1,6 +1,6 @@
 # Sprint 3 — risk-assessment microservice
 
-Calcul du niveau de risque de diabète. **Aucune base de données** : le service lit `patient` et `notes` en HTTP (compte `service` / `service`).
+Calcul du niveau de risque de diabète. **Aucune base de données** : notes d’abord, puis patient seulement s’il y a au moins un déclencheur (compte `service` / `service`).
 
 - Port : `8083`
 - Endpoint : `GET /risk/{patId}`

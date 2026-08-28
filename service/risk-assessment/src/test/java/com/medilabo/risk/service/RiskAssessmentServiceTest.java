@@ -1,6 +1,8 @@
 package com.medilabo.risk.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -40,15 +42,14 @@ class RiskAssessmentServiceTest {
     }
 
     @Test
-    void noTriggerStillLoadsPatientAndReturnsNone() {
+    void zeroTriggersSkipsPatientCall() {
         when(notesClient.findByPatId(9L)).thenReturn(List.of(note("RAS, se sent bien.")));
-        when(patientClient.findById(9L)).thenReturn(patient("Test", "Clean", LocalDate.of(1966, 12, 31), "F"));
 
         RiskAssessmentResponse response = service.assess(9L);
 
         assertEquals(RiskLevel.NONE, response.getRisk());
-        assertEquals("Clean", response.getLastName());
-        verify(patientClient).findById(9L);
+        assertNull(response.getLastName());
+        verify(patientClient, never()).findById(9L);
     }
 
     @Test

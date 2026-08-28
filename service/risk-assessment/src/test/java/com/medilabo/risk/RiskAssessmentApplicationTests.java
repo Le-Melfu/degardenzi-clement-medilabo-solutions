@@ -5,7 +5,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,7 +20,6 @@ import org.springframework.test.web.servlet.request.RequestPostProcessor;
 
 import com.medilabo.risk.client.NotesClient;
 import com.medilabo.risk.client.PatientClient;
-import com.medilabo.risk.client.PatientDto;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -52,19 +50,14 @@ class RiskAssessmentApplicationTests {
     }
 
     @Test
-    void emptyNotesReturnNone() throws Exception {
+    void emptyNotesReturnNoneWithoutPatient() throws Exception {
         Mockito.when(notesClient.findByPatId(1L)).thenReturn(List.of());
-        PatientDto patient = new PatientDto();
-        patient.setFirstName("Test");
-        patient.setLastName("None");
-        patient.setBirthDate(LocalDate.of(1966, 12, 31));
-        patient.setGender("F");
-        Mockito.when(patientClient.findById(1L)).thenReturn(patient);
 
         mockMvc.perform(get("/risk/1").with(doctorAuth()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.patId").value(1))
-                .andExpect(jsonPath("$.risk").value("None"))
-                .andExpect(jsonPath("$.lastName").value("None"));
+                .andExpect(jsonPath("$.risk").value("None"));
+
+        Mockito.verifyNoInteractions(patientClient);
     }
 }

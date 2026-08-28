@@ -28,6 +28,7 @@ class RiskCalculatorTest {
         assertEquals(RiskLevel.IN_DANGER, calculator.assess(45, "M", 6));
         assertEquals(RiskLevel.IN_DANGER, calculator.assess(45, "F", 7));
         assertEquals(RiskLevel.EARLY_ONSET, calculator.assess(45, "M", 8));
+        assertEquals(RiskLevel.EARLY_ONSET, calculator.assess(45, "M", 12));
     }
 
     @Test

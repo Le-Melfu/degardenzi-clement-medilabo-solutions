@@ -37,9 +37,13 @@ public class RiskAssessmentService {
 
     public RiskAssessmentResponse assess(Long patId) {
         List<String> notes = noteTexts(notesClient.findByPatId(patId));
+        List<String> triggers = triggerDetector.detect(notes);
+        if (triggers.isEmpty()) {
+            return new RiskAssessmentResponse(patId, null, null, RiskLevel.NONE);
+        }
+
         PatientDto patient = patientClient.findById(patId);
         int age = Period.between(patient.getBirthDate(), LocalDate.now()).getYears();
-        List<String> triggers = triggerDetector.detect(notes);
         RiskLevel risk = riskCalculator.assess(age, patient.getGender(), triggers.size());
         return new RiskAssessmentResponse(patId, patient.getFirstName(), patient.getLastName(), risk);
     }
