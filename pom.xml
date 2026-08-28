@@ -15,5 +15,6 @@
         <module>service/gateway</module>
         <module>service/patient</module>
         <module>service/notes</module>
+        <module>service/risk-assessment</module>
     </modules>
 </project>

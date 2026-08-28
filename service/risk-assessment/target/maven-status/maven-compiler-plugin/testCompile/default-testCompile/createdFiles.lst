@@ -1,0 +1,5 @@
+com\medilabo\risk\service\RiskAssessmentServiceTest.class
+com\medilabo\risk\domain\AnnexCRiskTest.class
+com\medilabo\risk\domain\RiskCalculatorTest.class
+com\medilabo\risk\domain\TriggerDetectorTest.class
+com\medilabo\risk\RiskAssessmentApplicationTests.class

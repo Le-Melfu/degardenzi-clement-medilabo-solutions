@@ -19,6 +19,14 @@
     },
     {
       "type": "java",
+      "name": "Risk assessment",
+      "request": "launch",
+      "mainClass": "com.medilabo.risk.RiskAssessmentApplication",
+      "projectName": "riskassessment",
+      "cwd": "${workspaceFolder}/service/risk-assessment"
+    },
+    {
+      "type": "java",
       "name": "Gateway",
       "request": "launch",
       "mainClass": "com.medilabo.gateway.GatewayApplication",
@@ -51,6 +59,15 @@
       "projectName": "notes",
       "cwd": "${workspaceFolder}/service/notes",
       "preLaunchTask": "kill-port:8082"
+    },
+    {
+      "type": "java",
+      "name": "Risk assessment — restart",
+      "request": "launch",
+      "mainClass": "com.medilabo.risk.RiskAssessmentApplication",
+      "projectName": "riskassessment",
+      "cwd": "${workspaceFolder}/service/risk-assessment",
+      "preLaunchTask": "kill-port:8083"
     },
     {
       "type": "java",
@@ -114,7 +131,7 @@
   "compounds": [
     {
       "name": "Medilabo Full Backend Restart",
-      "configurations": ["Patient — restart", "Notes — restart", "Gateway — restart"],
+      "configurations": ["Patient — restart", "Notes — restart", "Risk assessment — restart", "Gateway — restart"],
       "preLaunchTask": "kill-ports:backend",
       "stopAll": true
     }

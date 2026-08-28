@@ -35,6 +35,17 @@
       }
     },
     {
+      "label": "kill-port:8083",
+      "type": "shell",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File \"${workspaceFolder}/scripts/launch/kill-port.ps1\" -Port 8083",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "panel": "shared",
+        "close": true
+      }
+    },
+    {
       "label": "kill-port:3000",
       "type": "shell",
       "command": "powershell -NoProfile -ExecutionPolicy Bypass -File \"${workspaceFolder}/scripts/launch/kill-port.ps1\" -Port 3000",
@@ -48,7 +59,7 @@
     {
       "label": "kill-ports:backend",
       "dependsOrder": "parallel",
-      "dependsOn": ["kill-port:8081", "kill-port:8082", "kill-port:8080"],
+      "dependsOn": ["kill-port:8081", "kill-port:8082", "kill-port:8083", "kill-port:8080"],
       "problemMatcher": [],
       "presentation": {
         "reveal": "silent",
@@ -78,6 +89,22 @@
       "command": "mvn spring-boot:run",
       "options": {
         "cwd": "${workspaceFolder}/service/notes"
+      },
+      "group": "none",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "medilabo"
+      },
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "risk:run",
+      "type": "shell",
+      "command": "mvn spring-boot:run",
+      "options": {
+        "cwd": "${workspaceFolder}/service/risk-assessment"
       },
       "group": "none",
       "presentation": {

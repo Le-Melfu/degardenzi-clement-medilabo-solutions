@@ -1,0 +1,15 @@
+com\medilabo\risk\client\NotesClient.class
+com\medilabo\risk\client\PatientClient.class
+com\medilabo\risk\service\RiskAssessmentService.class
+com\medilabo\risk\client\PatientDto.class
+com\medilabo\risk\domain\TriggerDetector.class
+com\medilabo\risk\client\NotesClient$1.class
+com\medilabo\risk\controller\RiskAssessmentController.class
+com\medilabo\risk\domain\DetectionMode.class
+com\medilabo\risk\dto\RiskAssessmentResponse.class
+com\medilabo\risk\RiskAssessmentApplication.class
+com\medilabo\risk\config\SecurityConfig.class
+com\medilabo\risk\client\NoteDto.class
+com\medilabo\risk\domain\RiskLevel.class
+com\medilabo\risk\domain\Trigger.class
+com\medilabo\risk\domain\RiskCalculator.class

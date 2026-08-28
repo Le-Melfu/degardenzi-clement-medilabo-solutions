@@ -47,6 +47,8 @@ Service : **http://localhost:8080**
 |---------|--------|-------------|
 | `GET` | `/auth/me` | Vérifie l’auth, renvoie `{ "username": "..." }` |
 | `*` | `/patient/**` | Proxy vers `patient` (8081) |
+| `*` | `/notes/**` | Proxy vers `notes` (8082) |
+| `*` | `/risk/**` | Proxy vers `risk-assessment` (8083) |
 
 ## Logging des appels
 

@@ -5,9 +5,11 @@ import { Label } from '../components/atoms/Label'
 import { AppShell } from '../components/organisms/AppShell'
 import { createNote, listNotesByPatient, UnauthorizedError } from '../services/notesService'
 import { getPatient } from '../services/patientService'
+import { getRisk } from '../services/riskService'
 import { useAuth } from '../session/AuthContext'
 import type { Note } from '../types/note'
 import type { Patient } from '../types/patient'
+import { riskModifier, type RiskAssessment } from '../types/risk'
 import {
   calcAge,
   formatBirthDate,
@@ -23,9 +25,11 @@ export function PatientViewPage() {
   const { id } = useParams()
   const [patient, setPatient] = useState<Patient | null>(null)
   const [notes, setNotes] = useState<Note[]>([])
+  const [risk, setRisk] = useState<RiskAssessment | null>(null)
   const [newNote, setNewNote] = useState('')
   const [error, setError] = useState('')
   const [notesError, setNotesError] = useState('')
+  const [riskError, setRiskError] = useState('')
   const [loading, setLoading] = useState(true)
   const [savingNote, setSavingNote] = useState(false)
 
@@ -63,6 +67,25 @@ export function PatientViewPage() {
         }
       })
 
+    getRisk(patId)
+      .then((riskData) => {
+        if (!cancelled) {
+          setRisk(riskData)
+          setRiskError('')
+        }
+      })
+      .catch((err) => {
+        if (cancelled) {
+          return
+        }
+        if (err instanceof UnauthorizedError) {
+          logout()
+          navigate('/login', { replace: true })
+          return
+        }
+        setRiskError(err instanceof Error ? err.message : 'Impossible de charger le risque.')
+      })
+
     return () => {
       cancelled = true
     }
@@ -90,6 +113,19 @@ export function PatientViewPage() {
       .then((created) => {
         setNotes((current) => [...current, created])
         setNewNote('')
+        getRisk(patient.id)
+          .then((riskData) => {
+            setRisk(riskData)
+            setRiskError('')
+          })
+          .catch((err) => {
+            if (err instanceof UnauthorizedError) {
+              logout()
+              navigate('/login', { replace: true })
+              return
+            }
+            setRiskError(err instanceof Error ? err.message : 'Impossible de charger le risque.')
+          })
       })
       .catch((err) => {
         if (err instanceof UnauthorizedError) {
@@ -133,6 +169,16 @@ export function PatientViewPage() {
                   <p className="patient-detail__meta">
                     {formatGender(patient.gender)} · {calcAge(patient.birthDate)} ans
                   </p>
+                  {risk ? (
+                    <p className="patient-detail__risk">
+                      <span
+                        className={`patient-detail__risk-badge patient-detail__risk-badge--${riskModifier(risk.risk)}`}
+                      >
+                        {risk.risk}
+                      </span>
+                    </p>
+                  ) : null}
+                  {riskError ? <p className="patient-detail__error">{riskError}</p> : null}
                 </div>
               </section>
 

@@ -15,6 +15,8 @@ Start-ServiceWindow "Patient" (Join-Path $launchDir "start-patient.ps1")
 Start-Sleep -Seconds 3
 Start-ServiceWindow "Notes" (Join-Path $launchDir "start-notes.ps1")
 Start-Sleep -Seconds 3
+Start-ServiceWindow "Risk assessment" (Join-Path $launchDir "start-risk-assessment.ps1")
+Start-Sleep -Seconds 3
 Start-ServiceWindow "Gateway" (Join-Path $launchDir "start-gateway.ps1")
 Start-Sleep -Seconds 2
 Start-ServiceWindow "Frontend" (Join-Path $launchDir "start-frontend.ps1")
@@ -22,5 +24,6 @@ Start-ServiceWindow "Frontend" (Join-Path $launchDir "start-frontend.ps1")
 Write-Host "Done. Check each window. URLs:"
 Write-Host "  Patient   http://localhost:8081"
 Write-Host "  Notes     http://localhost:8082"
+Write-Host "  Risk      http://localhost:8083"
 Write-Host "  Gateway   http://localhost:8080"
 Write-Host "  Frontend  http://localhost:3000"
