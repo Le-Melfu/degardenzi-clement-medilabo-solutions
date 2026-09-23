@@ -2,7 +2,7 @@
 
 Chemin de développement local (processus sur la machine). Pour l'évaluation, utiliser `docker compose up --build` décrit dans le README à la racine.
 
-Prérequis : MySQL démarré (`.\scripts\setup-mysql.ps1` ou service Windows) et MongoDB (`docker compose up -d mongo`) avec auth (compte `medilabo` / `medilabo`).
+Prérequis : bases du compose (`docker compose up -d mysql mongo`). Compte `medilabo` / `medilabo`. Pas de MySQL installé sur Windows.
 
 ## Ordre de démarrage
 

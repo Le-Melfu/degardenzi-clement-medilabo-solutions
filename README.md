@@ -42,7 +42,7 @@ docker compose down
 
 `docker compose down -v` efface aussi les données MySQL et MongoDB. Au prochain démarrage, les jeux de test sont rechargés.
 
-Les scripts dans `scripts/launch/` servent au développement local (processus lancés sur la machine). Ils ne sont pas le chemin d'évaluation.
+MySQL est publié sur le port 3306 et MongoDB sur le port 27017, tous les deux dans le compose. Les scripts dans `scripts/launch/` lancent les processus Java sur la machine, en s'appuyant sur ces bases. Le chemin d'évaluation reste `docker compose up --build`.
 
 ## Fonctionnement
 
@@ -85,7 +85,7 @@ Notes du médecin. MongoDB, texte libre, sans limite de taille, liées au patien
 
 ### risk-assessment (8083)
 
-Aucune base. Pour un patient, il lit les notes, cherche les termes déclencheurs (sans tenir compte de la casse, chacun compté une fois), puis lit le patient seulement s'il y a au moins un terme. Il renvoie `None`, `Borderline`, `In Danger` ou `Early onset`. Les appels vers patient et notes utilisent le compte `service` / `service`.
+Aucune base. Pour un patient, il lit les notes, cherche les termes déclencheurs (sans tenir compte de la casse, chacun compté une fois), puis lit le patient seulement s'il y a au moins un terme. Il renvoie `None`, `Borderline`, `In Danger` ou `Early onset`. L'âge est calculé dans le fuseau `Europe/Paris`. Les appels vers patient et notes utilisent le compte `service` / `service` et s'arrêtent au bout de quelques secondes si un service ne répond pas.
 
 ## Green Code
 

@@ -1,7 +1,6 @@
 package com.medilabo.risk.client;
 
 import java.util.List;
-import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -17,10 +16,7 @@ public class NotesClient {
             @Value("${medilabo.notes.url}") String baseUrl,
             @Value("${medilabo.clients.username}") String username,
             @Value("${medilabo.clients.password}") String password) {
-        this.restClient = RestClient.builder()
-                .baseUrl(Objects.requireNonNull(baseUrl))
-                .defaultHeaders(headers -> headers.setBasicAuth(Objects.requireNonNull(username), Objects.requireNonNull(password)))
-                .build();
+        this.restClient = UpstreamRestClient.create(baseUrl, username, password);
     }
 
     public List<NoteDto> findByPatId(Long patId) {

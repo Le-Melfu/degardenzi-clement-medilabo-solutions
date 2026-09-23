@@ -209,23 +209,6 @@
         "group": "medilabo-tests"
       },
       "problemMatcher": []
-    },
-    {
-      "label": "mysql:setup",
-      "type": "shell",
-      "command": "./scripts/setup-mysql.ps1 -RootPassword \"${input:mysqlRootPassword}\"",
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "problemMatcher": []
-    }
-  ],
-  "inputs": [
-    {
-      "id": "mysqlRootPassword",
-      "type": "promptString",
-      "description": "MySQL root password",
-      "password": true
     }
   ]
 }

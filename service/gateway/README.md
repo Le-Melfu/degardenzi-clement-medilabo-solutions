@@ -71,8 +71,6 @@ Couleurs console (ANSI) :
 
 ```bash
 docker compose up -d mysql
-# ou
-.\scripts\setup-mysql.ps1 -RootPassword "TON_MOT_DE_PASSE_ROOT"
 ```
 
 ## Docker

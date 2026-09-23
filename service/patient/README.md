@@ -10,8 +10,6 @@ Microservice CRUD dossier patient (SQL 3NF MySQL, Spring Security HTTP Basic).
 
 ```powershell
 docker compose up -d mysql
-# ou
-.\scripts\setup-mysql.ps1 -RootPassword "TON_MOT_DE_PASSE_ROOT"
 ```
 
 ## Commandes
