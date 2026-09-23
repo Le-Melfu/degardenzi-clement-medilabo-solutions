@@ -27,7 +27,6 @@ Application de **dépistage du risque de diabète de type 2**. Livraison en **3 
 2. **Spring Security** : HTTP Basic, users in-memory, mots de passe **BCrypt** — pas de sign-up, pas de rôles
 3. **Green Code** : recherche + section README + brief oral (sprint 3)
 4. **Périmètre strict** : user stories uniquement, rien de non demandé
-5. **Journal IA** : documenter les prompts code (via Notion, rule dédiée)
 
 ## Sprint 1 — Patient + Gateway + Front
 

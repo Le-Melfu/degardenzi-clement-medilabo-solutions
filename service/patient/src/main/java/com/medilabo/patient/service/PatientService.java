@@ -55,7 +55,7 @@ public class PatientService {
         patient.setFirstName(request.getFirstName().trim());
         patient.setLastName(request.getLastName().trim());
         patient.setBirthDate(request.getBirthDate());
-        patient.setGender(request.getGender().trim().toUpperCase());
+        patient.setGender(request.getGender());
         patient.setAddress(blankToNull(request.getAddress()));
         patient.setPhone(blankToNull(request.getPhone()));
     }

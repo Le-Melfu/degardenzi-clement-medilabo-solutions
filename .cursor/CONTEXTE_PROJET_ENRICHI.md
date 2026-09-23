@@ -36,8 +36,6 @@ Un "Journal de l'IA" doit être tenu tout au long du projet (ex. via Notion) pou
 - ce qui en a été fait,
 - comment cela a été vérifié.
 
-➡️ **Point d'attention pour Cursor** : à chaque génération de code substantielle, garder une trace synthétique (prompt → résultat → vérification) pour alimenter ce journal a posteriori.
-
 ### Précisions importantes issues du "Guide d'étapes clés"
 
 - Le projet reprend essentiellement des notions déjà maîtrisées. Les **vraies nouveautés** sont : la base de données **NoSQL (MongoDB)**, **Spring Cloud Gateway**, et **Docker**.

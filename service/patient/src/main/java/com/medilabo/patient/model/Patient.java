@@ -4,13 +4,14 @@ import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -35,10 +36,10 @@ public class Patient {
     @Column(name = "birth_date", nullable = false)
     private LocalDate birthDate;
 
-    @NotBlank
-    @Pattern(regexp = "[MF]", message = "Gender must be M or F")
+    @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 1)
-    private String gender;
+    private Gender gender;
 
     @Size(max = 255)
     @Column(length = 255)
@@ -80,11 +81,11 @@ public class Patient {
         this.birthDate = birthDate;
     }
 
-    public String getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 

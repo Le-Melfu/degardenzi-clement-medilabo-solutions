@@ -1,3 +1,8 @@
+# One compose file for the whole project.
+# Backend services share the "backend" network.
+# The frontend only serves static files on the "client" network.
+# The browser calls the gateway on the published host port.
+
 services:
   mysql:
     image: mysql:8.4
@@ -9,11 +14,14 @@ services:
     volumes:
       - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
       - medilabo-mysql-data:/var/lib/mysql
+    networks:
+      - backend
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -proot && mysql -uroot -proot -e 'USE medilabo_patient' && mysql -uroot -proot -e 'USE medilabo_gateway'"]
       interval: 5s
       timeout: 5s
-      retries: 10
+      retries: 20
+      start_period: 20s
 
   mongo:
     image: mongo:7.0
@@ -27,19 +35,129 @@ services:
     volumes:
       - ./docker/mongo/init-user.js:/docker-entrypoint-initdb.d/init-user.js:ro
       - medilabo-mongo-data:/data/db
+    networks:
+      - backend
     healthcheck:
       test:
         [
           "CMD",
           "mongosh",
-          "-u", "root",
-          "-p", "root",
-          "--authenticationDatabase", "admin",
-          "--eval", "db.adminCommand('ping')",
+          "-u", "medilabo",
+          "-p", "medilabo",
+          "--authenticationDatabase", "medilabo_notes",
+          "--quiet",
+          "--eval", "db.runCommand({ ping: 1 })",
         ]
       interval: 5s
       timeout: 5s
-      retries: 10
+      retries: 20
+      start_period: 20s
+
+  patient:
+    build: ./service/patient
+    image: medilabo-patient
+    container_name: medilabo-patient
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/medilabo_patient?useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: medilabo
+      SPRING_DATASOURCE_PASSWORD: medilabo
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/127.0.0.1/8081'"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 40s
+
+  notes:
+    build: ./service/notes
+    image: medilabo-notes
+    container_name: medilabo-notes
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://medilabo:medilabo@mongo:27017/medilabo_notes?authSource=medilabo_notes&serverSelectionTimeoutMS=5000
+    depends_on:
+      mongo:
+        condition: service_healthy
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/127.0.0.1/8082'"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 40s
+
+  risk-assessment:
+    build: ./service/risk-assessment
+    image: medilabo-risk
+    container_name: medilabo-risk
+    environment:
+      MEDILABO_PATIENT_URL: http://patient:8081
+      MEDILABO_NOTES_URL: http://notes:8082
+    depends_on:
+      patient:
+        condition: service_healthy
+      notes:
+        condition: service_healthy
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/127.0.0.1/8083'"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 40s
+
+  gateway:
+    build: ./service/gateway
+    image: medilabo-gateway
+    container_name: medilabo-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/medilabo_gateway?useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: medilabo
+      SPRING_DATASOURCE_PASSWORD: medilabo
+      MEDILABO_PATIENT_URL: http://patient:8081
+      MEDILABO_NOTES_URL: http://notes:8082
+      MEDILABO_RISK_URL: http://risk-assessment:8083
+    depends_on:
+      mysql:
+        condition: service_healthy
+      patient:
+        condition: service_healthy
+      notes:
+        condition: service_healthy
+      risk-assessment:
+        condition: service_healthy
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/127.0.0.1/8080'"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 40s
+
+  frontend:
+    build: ./frontend
+    image: medilabo-frontend
+    container_name: medilabo-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      gateway:
+        condition: service_healthy
+    networks:
+      - client
+
+networks:
+  backend:
+  client:
 
 volumes:
   medilabo-mysql-data:

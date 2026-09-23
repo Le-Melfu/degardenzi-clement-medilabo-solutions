@@ -2,6 +2,7 @@ package com.medilabo.patient.dto;
 
 import java.time.LocalDate;
 
+import com.medilabo.patient.model.Gender;
 import com.medilabo.patient.model.Patient;
 
 public class PatientResponse {
@@ -10,7 +11,7 @@ public class PatientResponse {
     private String firstName;
     private String lastName;
     private LocalDate birthDate;
-    private String gender;
+    private Gender gender;
     private String address;
     private String phone;
 
@@ -42,7 +43,7 @@ public class PatientResponse {
         return birthDate;
     }
 
-    public String getGender() {
+    public Gender getGender() {
         return gender;
     }
 

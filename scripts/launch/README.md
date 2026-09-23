@@ -1,5 +1,7 @@
 # Launch scripts — Medilabo
 
+Chemin de développement local (processus sur la machine). Pour l'évaluation, utiliser `docker compose up --build` décrit dans le README à la racine.
+
 Prérequis : MySQL démarré (`.\scripts\setup-mysql.ps1` ou service Windows) et MongoDB (`docker compose up -d mongo`) avec auth (compte `medilabo` / `medilabo`).
 
 ## Ordre de démarrage

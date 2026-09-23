@@ -2,9 +2,10 @@ package com.medilabo.patient.dto;
 
 import java.time.LocalDate;
 
+import com.medilabo.patient.model.Gender;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public class PatientRequest {
@@ -20,9 +21,8 @@ public class PatientRequest {
     @NotNull
     private LocalDate birthDate;
 
-    @NotBlank
-    @Pattern(regexp = "[MF]", message = "Gender must be M or F")
-    private String gender;
+    @NotNull
+    private Gender gender;
 
     @Size(max = 255)
     private String address;
@@ -54,11 +54,11 @@ public class PatientRequest {
         this.birthDate = birthDate;
     }
 
-    public String getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 

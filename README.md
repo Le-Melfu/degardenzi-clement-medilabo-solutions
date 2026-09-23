@@ -1,87 +1,110 @@
 # Medilabo Solutions
 
-Application de depistage du risque de diabete de type 2 — architecture microservices.
+Application de dépistage du risque de diabète de type 2. Quatre microservices Spring Boot, une gateway, et un client React indépendant.
 
-## Structure du projet
+## Démarrage pour l'évaluateur
 
-```
-degardenzi-clement-medilabo-solutions/
-├── frontend/                  # Client React (independant, consomme l'API via la gateway)
-├── service/
-│   ├── patient/               # Sprint 1 — CRUD dossier patient (SQL 3NF / MySQL)
-│   ├── gateway/               # Sprint 1 — Spring Cloud Gateway
-│   ├── notes/                 # Sprint 2 — notes medecin (MongoDB)
-│   └── risk-assessment/       # Sprint 3 — calcul du risque diabete
-└── docker-compose.yml
-```
+Prérequis : Docker Desktop lancé.
 
-## Stack
-
-- **Backend** : Spring Boot 3.4, Java 21
-- **Gateway** : Spring Cloud Gateway (routage vers URLs locales)
-- **Frontend** : React + Vite (partie client independante, pas un microservice back)
-- **Bases de donnees** : MySQL (patient, gateway), MongoDB (notes — sprint 2)
-
-## Demarrage local
-
-→ détail : [`scripts/launch/README.md`](scripts/launch/README.md)
-
-**Prérequis MySQL + MongoDB** puis **ordre** : Patient → Notes → Risk assessment → Gateway → Frontend
-
-### MySQL
+À la racine du dépôt :
 
 ```powershell
-docker compose up -d mysql
-# ou
-.\scripts\setup-mysql.ps1 -RootPassword "TON_MOT_DE_PASSE_ROOT"
+docker compose up --build
 ```
 
-Bases : `medilabo_patient`, `medilabo_gateway` — user DB : `medilabo` / `medilabo`.
+Le premier lancement construit les images (plusieurs minutes). Les services attendent que MySQL et MongoDB soient prêts, puis que chaque API réponde, avant d'ouvrir le client.
 
-### Option rapide (PowerShell)
+| Accès | URL |
+| --- | --- |
+| Interface | http://localhost:3000 |
+| API (gateway) | http://localhost:8080 |
+
+Compte de démonstration : `doctor` / `password`.
+
+Parcours utile :
+
+1. Se connecter. La liste contient les 4 patients de test (TestNone, TestBorderline, TestInDanger, TestEarlyOnset).
+2. Ouvrir une fiche : informations, notes du médecin, niveau de risque.
+3. Risques attendus : TestNone `None`, TestBorderline `Borderline`, TestInDanger `In Danger`, TestEarlyOnset `Early onset`.
+4. Ajouter une note sur une fiche, puis recharger : le texte garde ses sauts de ligne, le risque est recalculé.
+
+Exemple d'appel API :
 
 ```powershell
-.\scripts\launch\start-all.ps1
+curl -u doctor:password http://localhost:8080/patient
 ```
 
-### Option Cursor / VS Code
+Arrêt :
 
-**Run and Debug** → `Medilabo Full Backend Restart`, ou un service seul (`Patient — restart`, `Notes — restart`, `Risk assessment — restart`, `Gateway — restart`, `Frontend — restart`).
+```powershell
+docker compose down
+```
 
-## Sprints
+`docker compose down -v` efface aussi les données MySQL et MongoDB. Au prochain démarrage, les jeux de test sont rechargés.
 
-| Sprint | Livrables |
-|--------|-----------|
-| 1 | patient (CRUD + seed), gateway, frontend (liste + détail + création / édition) |
-| 2 | notes + enrichissement gateway / frontend |
-| 3 | risk-assessment + Green Code |
+Les scripts dans `scripts/launch/` servent au développement local (processus lancés sur la machine). Ils ne sont pas le chemin d'évaluation.
 
-## API risque (sprint 3)
+## Fonctionnement
 
-`GET /risk/{patId}` via la gateway (`http://localhost:8080`). HTTP Basic `doctor` / `password`.
+Le navigateur ne parle qu'à la gateway. Le client React n'est pas sur le réseau des microservices : son conteneur ne fait que servir les fichiers statiques. L'adresse de l'API est `http://localhost:8080`, le port publié de la gateway.
 
-Le microservice `risk-assessment` (8083) n’a pas de BDD. Il appelle **directement** notes (toujours) puis patient (seulement s’il y a au moins un déclencheur), avec le compte `service` / `service`.
+```
+Navigateur  →  frontend :3000     (fichiers statiques)
+Navigateur  →  gateway  :8080     (seule porte HTTP)
+gateway     →  patient, notes, risk-assessment
+risk-assessment → patient + notes (appels directs, compte service)
+patient     →  MySQL
+notes       →  MongoDB
+gateway     →  MySQL (comptes de connexion)
+```
 
-Niveaux : `None`, `Borderline`, `In Danger`, `Early onset`.
+### frontend
+
+Client React (Vite), servi par nginx sur le port 3000. Liste des patients, création, modification, fiche avec notes et risque. Il envoie l'authentification HTTP Basic vers la gateway. Il ne connaît pas les ports 8081, 8082 et 8083.
+
+### gateway (8080)
+
+Point d'entrée unique.
+
+| Chemin | Service |
+| --- | --- |
+| `/patient/**` | patient |
+| `/notes/**` | notes |
+| `/risk/**` | risk-assessment |
+| `/auth/me` | identité de l'utilisateur connecté |
+
+Les comptes `doctor` / `password` et `service` / `service` sont créés au démarrage (mots de passe BCrypt). Pas d'inscription.
+
+### patient (8081)
+
+Dossier patient. MySQL, une table, troisième forme normale. Champs : prénom, nom, date de naissance, genre (`M` ou `F`), adresse et téléphone optionnels. Consultation, création, mise à jour. Au premier démarrage, les 4 patients de l'annexe A sont insérés. Sécurité HTTP Basic, utilisateurs en mémoire.
+
+### notes (8082)
+
+Notes du médecin. MongoDB, texte libre, sans limite de taille, liées au patient par `patId`. Consultation de l'historique et ajout. Au premier démarrage, les 9 notes de l'annexe B sont insérées. Même sécurité que patient.
+
+### risk-assessment (8083)
+
+Aucune base. Pour un patient, il lit les notes, cherche les termes déclencheurs (sans tenir compte de la casse, chacun compté une fois), puis lit le patient seulement s'il y a au moins un terme. Il renvoie `None`, `Borderline`, `In Danger` ou `Early onset`. Les appels vers patient et notes utilisent le compte `service` / `service`.
 
 ## Green Code
 
-Le client demande une politique de sobriété numérique. Les pistes ci-dessous sont **documentées, pas toutes appliquées**.
+Le client demande une politique de sobriété numérique. Les pistes ci-dessous sont documentées. Elles ne sont pas toutes appliquées.
 
-### Déjà en place sur ce projet
+### Déjà en place
 
-- **Pas de base pour `risk-assessment`** : pas de stockage redondant des dossiers / notes, pas de synchro à maintenir.
-- **GET patient conditionnel** : si aucune note ne contient de déclencheur, le calcul s’arrête à `None` sans second appel HTTP.
-- **Images Docker JRE** (pas JDK) pour l’exécution : moins de couches et d’outils inutiles en runtime.
-- **Pas de lib NLP** : la détection reste une recherche insensible à la casse des 11 termes de la spec.
+- Pas de base pour `risk-assessment` : pas de copie des dossiers ni des notes.
+- Lecture du patient seulement s'il existe au moins un déclencheur. Sinon le résultat est `None`.
+- Images d'exécution en JRE, pas en JDK.
+- Détection par recherche des 11 termes de la spécification, sans bibliothèque de traitement du langage.
+- Un seul `docker-compose.yml`, avec des contrôles de santé : la gateway démarre après les API, le client après la gateway.
 
-### Pistes d’amélioration (non implémentées)
+### Pistes non implémentées
 
-- **Détection clinique** (hors spec, à mentionner en soutenance) : ignorer les négations (« ne fume pas »), ajouter des synonymes (vertiges → perte d’équilibre), ou un second mode `clinical` vs `strict`.
-- **Backend** : mutualiser le chargement des notes (aujourd’hui le front les affiche *et* risk-assessment les relit) via un contrat interne plus fin, ou un cache court TTL si la charge le justifie ; pagination si les historiques grossissent.
-- **Bases** : index uniquement sur les colonnes / champs réellement filtrés (`patId` côté notes) ; éviter `show-sql` et les logs verbeux hors debug.
-- **Frontend** : ne pas refetch patient+notes+risque en triple si une seule ressource a changé (après ajout de note, seul le risque et la liste des notes bougent — déjà le cas).
-- **Infra / Docker** : un `docker-compose` unique avec healthchecks pour ne démarrer la gateway qu’après les backs ; multi-stage builds déjà présents ; limiter CPU/RAM des conteneurs en démo.
-- **CI/CD** : cacher le dépôt Maven, ne pas relancer toute la matrice de tests sur un changement front.
+- Détection clinique, hors spécification : ignorer les négations (« ne fume pas »), ajouter des synonymes, ou distinguer un mode strict et un mode clinique.
+- Éviter que l'écran et le calcul de risque relisent les mêmes notes, par un cache court si la charge le justifie. Paginer les historiques s'ils grossissent.
+- Indexer seulement `patId` côté notes. Garder les logs SQL coupés hors debug.
+- Limiter le CPU et la RAM des conteneurs en démonstration.
+- En intégration continue, mettre en cache le dépôt Maven et ne pas relancer tous les tests back pour un changement de client.
 
-Objectif du Green Code ici : moins d’octets déplacés, moins de RAM idle, moins de dépendances pour le même besoin métier.
+Objectif : moins d'octets déplacés, moins de mémoire inutilisée, moins de dépendances pour le même besoin.
