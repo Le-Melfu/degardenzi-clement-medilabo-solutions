@@ -1,5 +1,7 @@
 package com.medilabo.risk.client;
 
+import java.util.Objects;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -16,8 +18,8 @@ public class PatientClient {
             @Value("${medilabo.clients.username}") String username,
             @Value("${medilabo.clients.password}") String password) {
         this.restClient = RestClient.builder()
-                .baseUrl(baseUrl)
-                .defaultHeaders(headers -> headers.setBasicAuth(username, password))
+                .baseUrl(Objects.requireNonNull(baseUrl))
+                .defaultHeaders(headers -> headers.setBasicAuth(Objects.requireNonNull(username), Objects.requireNonNull(password)))
                 .build();
     }
 
