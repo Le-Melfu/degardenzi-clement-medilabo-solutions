@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -33,6 +34,7 @@ public class Patient {
     private String lastName;
 
     @NotNull
+    @PastOrPresent
     @Column(name = "birth_date", nullable = false)
     private LocalDate birthDate;
 

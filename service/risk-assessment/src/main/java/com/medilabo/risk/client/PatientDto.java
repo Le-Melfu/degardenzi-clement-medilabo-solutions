@@ -3,6 +3,7 @@ package com.medilabo.risk.client;
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.medilabo.risk.domain.Gender;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PatientDto {
@@ -11,7 +12,7 @@ public class PatientDto {
     private String firstName;
     private String lastName;
     private LocalDate birthDate;
-    private String gender;
+    private Gender gender;
 
     public Long getId() {
         return id;
@@ -45,11 +46,11 @@ public class PatientDto {
         this.birthDate = birthDate;
     }
 
-    public String getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 }

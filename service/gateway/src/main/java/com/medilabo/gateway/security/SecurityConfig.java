@@ -6,21 +6,16 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-
-import com.medilabo.gateway.service.DatabaseUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
-    private final DatabaseUserDetailsService userDetailsService;
-
-    public SecurityConfig(DatabaseUserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -30,8 +25,18 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
-                .userDetailsService(userDetailsService)
                 .build();
+    }
+
+    @Bean
+    UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
+        return new InMemoryUserDetailsManager(
+                User.builder()
+                        .username("doctor")
+                        .password(passwordEncoder.encode("password"))
+                        .roles("USER")
+                        .build()
+        );
     }
 
     @Bean

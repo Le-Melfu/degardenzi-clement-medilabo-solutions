@@ -19,6 +19,7 @@ import com.medilabo.risk.client.NoteDto;
 import com.medilabo.risk.client.NotesClient;
 import com.medilabo.risk.client.PatientClient;
 import com.medilabo.risk.client.PatientDto;
+import com.medilabo.risk.domain.Gender;
 import com.medilabo.risk.domain.RiskCalculator;
 import com.medilabo.risk.domain.RiskLevel;
 import com.medilabo.risk.domain.TriggerDetector;
@@ -56,7 +57,8 @@ class RiskAssessmentServiceTest {
     void oneTriggerLoadsPatientAndStaysNone() {
         when(notesClient.findByPatId(1L)).thenReturn(List.of(
                 note("Poids égal ou inférieur au poids recommandé.")));
-        when(patientClient.findById(1L)).thenReturn(patient("Test", "TestNone", LocalDate.of(1966, 12, 31), "F"));
+        when(patientClient.findById(1L)).thenReturn(
+                patient("Test", "TestNone", LocalDate.of(1966, 12, 31), Gender.F));
 
         RiskAssessmentResponse response = service.assess(1L);
 
@@ -71,7 +73,7 @@ class RiskAssessmentServiceTest {
         return dto;
     }
 
-    private static PatientDto patient(String firstName, String lastName, LocalDate birthDate, String gender) {
+    private static PatientDto patient(String firstName, String lastName, LocalDate birthDate, Gender gender) {
         PatientDto dto = new PatientDto();
         dto.setFirstName(firstName);
         dto.setLastName(lastName);

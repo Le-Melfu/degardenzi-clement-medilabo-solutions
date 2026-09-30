@@ -18,7 +18,7 @@ services:
     networks:
       - backend
     healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -proot && mysql -uroot -proot -e 'USE medilabo_patient' && mysql -uroot -proot -e 'USE medilabo_gateway'"]
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -proot && mysql -uroot -proot -e 'USE medilabo_patient'"]
       interval: 5s
       timeout: 5s
       retries: 20
@@ -83,8 +83,11 @@ services:
     restart: unless-stopped
     environment:
       SPRING_DATA_MONGODB_URI: mongodb://medilabo:medilabo@mongo:27017/medilabo_notes?authSource=medilabo_notes&serverSelectionTimeoutMS=5000
+      MEDILABO_PATIENT_URL: http://patient:8081
     depends_on:
       mongo:
+        condition: service_healthy
+      patient:
         condition: service_healthy
     networks:
       - backend
@@ -127,15 +130,10 @@ services:
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/medilabo_gateway?useSSL=false&allowPublicKeyRetrieval=true
-      SPRING_DATASOURCE_USERNAME: medilabo
-      SPRING_DATASOURCE_PASSWORD: medilabo
       MEDILABO_PATIENT_URL: http://patient:8081
       MEDILABO_NOTES_URL: http://notes:8082
       MEDILABO_RISK_URL: http://risk-assessment:8083
     depends_on:
-      mysql:
-        condition: service_healthy
       patient:
         condition: service_healthy
       notes:

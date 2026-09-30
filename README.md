@@ -19,7 +19,7 @@ Le premier lancement construit les images (plusieurs minutes). Les services atte
 | Interface | http://localhost:3000 |
 | API (gateway) | http://localhost:8080 |
 
-Compte de démonstration : `doctor` / `password`.
+Compte de démonstration : utilisateur `doctor`, mot de passe `password` (HTTP Basic, in-memory sur la gateway et les APIs métier).
 
 Parcours utile :
 
@@ -53,9 +53,9 @@ Navigateur  →  frontend :3000     (fichiers statiques)
 Navigateur  →  gateway  :8080     (seule porte HTTP)
 gateway     →  patient, notes, risk-assessment
 risk-assessment → patient + notes (appels directs, compte service)
+notes       →  patient (vérif. existence avant création de note)
 patient     →  MySQL
 notes       →  MongoDB
-gateway     →  MySQL (comptes de connexion)
 ```
 
 ### frontend
@@ -73,7 +73,7 @@ Point d'entrée unique.
 | `/risk/**` | risk-assessment |
 | `/auth/me` | identité de l'utilisateur connecté |
 
-Les comptes `doctor` / `password` et `service` / `service` sont créés au démarrage (mots de passe BCrypt). Pas d'inscription.
+Les comptes `doctor` / `password` sont en mémoire (BCrypt). Pas d'inscription. Le compte technique `service` / `service` reste sur patient, notes et risk pour les appels inter-services.
 
 ### patient (8081)
 
@@ -81,7 +81,7 @@ Dossier patient. MySQL, une table, troisième forme normale. Champs : prénom, n
 
 ### notes (8082)
 
-Notes du médecin. MongoDB, texte libre, sans limite de taille, liées au patient par `patId`. Consultation de l'historique et ajout. Au premier démarrage, les 9 notes de l'annexe B sont insérées. Même sécurité que patient.
+Notes du médecin. MongoDB, texte libre, sans limite de taille, liées au patient par `patId`. Consultation de l'historique et ajout. La création vérifie que le patient existe auprès de `service/patient` (404 sinon). Au premier démarrage, les 9 notes de l'annexe B sont insérées. Même sécurité que patient.
 
 ### risk-assessment (8083)
 

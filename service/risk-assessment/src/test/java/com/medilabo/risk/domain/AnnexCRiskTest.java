@@ -17,7 +17,7 @@ class AnnexCRiskTest {
     void testNone() {
         assertEquals(RiskLevel.NONE, assess(
                 LocalDate.of(1966, 12, 31),
-                "F",
+                Gender.F,
                 List.of("Le patient déclare qu'il « se sent très bien ». Poids égal ou inférieur au poids recommandé.")));
     }
 
@@ -25,7 +25,7 @@ class AnnexCRiskTest {
     void testBorderline() {
         assertEquals(RiskLevel.BORDERLINE, assess(
                 LocalDate.of(1945, 6, 24),
-                "M",
+                Gender.M,
                 List.of(
                         "Le patient déclare qu'il ressent beaucoup de stress au travail. Il se plaint également que son audition est anormale dernièrement.",
                         "Le patient déclare avoir fait une réaction aux médicaments au cours des 3 derniers mois. Il remarque également que son audition continue d'être anormale.")));
@@ -35,7 +35,7 @@ class AnnexCRiskTest {
     void testInDanger() {
         assertEquals(RiskLevel.IN_DANGER, assess(
                 LocalDate.of(2004, 6, 18),
-                "M",
+                Gender.M,
                 List.of(
                         "Le patient déclare qu'il fume depuis peu.",
                         "Le patient déclare qu'il est fumeur et qu'il a cessé de fumer l'année dernière. Il se plaint également de crises d'apnée respiratoire anormales. Tests de laboratoire indiquant un taux de cholestérol LDL élevé.")));
@@ -45,7 +45,7 @@ class AnnexCRiskTest {
     void testEarlyOnset() {
         assertEquals(RiskLevel.EARLY_ONSET, assess(
                 LocalDate.of(2002, 6, 28),
-                "F",
+                Gender.F,
                 List.of(
                         "Le patient déclare qu'il lui est devenu difficile de monter les escaliers. Il se plaint également d'être essoufflé. Tests de laboratoire indiquant que les anticorps sont élevés. Réaction aux médicaments.",
                         "Le patient déclare qu'il a mal au dos lorsqu'il reste assis pendant longtemps.",
@@ -53,7 +53,7 @@ class AnnexCRiskTest {
                         "Taille, Poids, Cholestérol, Vertige et Réaction.")));
     }
 
-    private RiskLevel assess(LocalDate birthDate, String gender, List<String> notes) {
+    private RiskLevel assess(LocalDate birthDate, Gender gender, List<String> notes) {
         List<String> triggers = detector.detect(notes);
         int age = Period.between(birthDate, LocalDate.now()).getYears();
         return calculator.assess(age, gender, triggers.size());

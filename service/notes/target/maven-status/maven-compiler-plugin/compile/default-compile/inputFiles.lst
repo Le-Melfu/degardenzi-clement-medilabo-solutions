@@ -1,8 +1,13 @@
+D:\005-DEV\02_DEVELOPPEUR_JAVA\09_Medilabo_Solutions\repository\degardenzi-clement-medilabo-solutions\service\notes\src\main\java\com\medilabo\notes\client\PatientClient.java
+D:\005-DEV\02_DEVELOPPEUR_JAVA\09_Medilabo_Solutions\repository\degardenzi-clement-medilabo-solutions\service\notes\src\main\java\com\medilabo\notes\client\UpstreamRestClient.java
 D:\005-DEV\02_DEVELOPPEUR_JAVA\09_Medilabo_Solutions\repository\degardenzi-clement-medilabo-solutions\service\notes\src\main\java\com\medilabo\notes\config\NoteDataLoader.java
 D:\005-DEV\02_DEVELOPPEUR_JAVA\09_Medilabo_Solutions\repository\degardenzi-clement-medilabo-solutions\service\notes\src\main\java\com\medilabo\notes\config\SecurityConfig.java
+D:\005-DEV\02_DEVELOPPEUR_JAVA\09_Medilabo_Solutions\repository\degardenzi-clement-medilabo-solutions\service\notes\src\main\java\com\medilabo\notes\config\UpstreamExceptionHandler.java
 D:\005-DEV\02_DEVELOPPEUR_JAVA\09_Medilabo_Solutions\repository\degardenzi-clement-medilabo-solutions\service\notes\src\main\java\com\medilabo\notes\controller\NoteController.java
 D:\005-DEV\02_DEVELOPPEUR_JAVA\09_Medilabo_Solutions\repository\degardenzi-clement-medilabo-solutions\service\notes\src\main\java\com\medilabo\notes\dto\NoteRequest.java
 D:\005-DEV\02_DEVELOPPEUR_JAVA\09_Medilabo_Solutions\repository\degardenzi-clement-medilabo-solutions\service\notes\src\main\java\com\medilabo\notes\dto\NoteResponse.java
+D:\005-DEV\02_DEVELOPPEUR_JAVA\09_Medilabo_Solutions\repository\degardenzi-clement-medilabo-solutions\service\notes\src\main\java\com\medilabo\notes\logging\CenteredThreadConverter.java
+D:\005-DEV\02_DEVELOPPEUR_JAVA\09_Medilabo_Solutions\repository\degardenzi-clement-medilabo-solutions\service\notes\src\main\java\com\medilabo\notes\logging\RequestLoggingFilter.java
 D:\005-DEV\02_DEVELOPPEUR_JAVA\09_Medilabo_Solutions\repository\degardenzi-clement-medilabo-solutions\service\notes\src\main\java\com\medilabo\notes\model\Note.java
 D:\005-DEV\02_DEVELOPPEUR_JAVA\09_Medilabo_Solutions\repository\degardenzi-clement-medilabo-solutions\service\notes\src\main\java\com\medilabo\notes\NotesApplication.java
 D:\005-DEV\02_DEVELOPPEUR_JAVA\09_Medilabo_Solutions\repository\degardenzi-clement-medilabo-solutions\service\notes\src\main\java\com\medilabo\notes\repository\NoteRepository.java

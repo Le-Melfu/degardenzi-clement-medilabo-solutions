@@ -106,4 +106,40 @@ class PatientApplicationTests {
         mockMvc.perform(get("/patient/9999").with(doctorAuth()))
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    void shouldRejectFutureBirthDate() throws Exception {
+        String body = """
+                {
+                  "firstName": "Future",
+                  "lastName": "Baby",
+                  "birthDate": "2999-01-01",
+                  "gender": "M"
+                }
+                """;
+
+        mockMvc.perform(post("/patient")
+                        .with(doctorAuth())
+                        .contentType(Objects.requireNonNull(MediaType.APPLICATION_JSON))
+                        .content(body))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void shouldRejectInvalidGender() throws Exception {
+        String body = """
+                {
+                  "firstName": "Bad",
+                  "lastName": "Gender",
+                  "birthDate": "1990-01-01",
+                  "gender": "X"
+                }
+                """;
+
+        mockMvc.perform(post("/patient")
+                        .with(doctorAuth())
+                        .contentType(Objects.requireNonNull(MediaType.APPLICATION_JSON))
+                        .content(body))
+                .andExpect(status().isBadRequest());
+    }
 }

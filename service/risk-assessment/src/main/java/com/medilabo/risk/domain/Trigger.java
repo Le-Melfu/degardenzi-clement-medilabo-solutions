@@ -3,16 +3,16 @@ package com.medilabo.risk.domain;
 import java.util.regex.Pattern;
 
 public enum Trigger {
-    HEMOGLOBINE_A1C("Hémoglobine A1C", "\\bhémoglobine\\s+a1c\\b"),
+    HEMOGLOBINE_A1C("Hémoglobine A1C", "\\bhemoglobine\\s+a1c\\b"),
     MICROALBUMINE("Microalbumine", "\\bmicroalbumine\\b"),
     TAILLE("Taille", "\\btaille\\b"),
     POIDS("Poids", "\\bpoids\\b"),
     FUMEUR("Fumeur", "\\bfum(?:euse|eur|er|e)s?\\b"),
     ANORMAL("Anormal", "\\banormal(?:e|es|aux)?\\b"),
-    CHOLESTEROL("Cholestérol", "\\bcholestérol\\b"),
+    CHOLESTEROL("Cholestérol", "\\bcholesterol\\b"),
     VERTIGES("Vertiges", "\\bvertiges?\\b"),
     RECHUTE("Rechute", "\\brechute\\b"),
-    REACTION("Réaction", "\\bréaction\\b"),
+    REACTION("Réaction", "\\breaction\\b"),
     ANTICORPS("Anticorps", "\\banticorps\\b");
 
     private static final int FLAGS =

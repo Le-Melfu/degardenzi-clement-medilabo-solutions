@@ -57,4 +57,10 @@ class TriggerDetectorTest {
         List<String> found = detector.detect(List.of("Le patient aime le parfum."));
         assertFalse(found.contains("Fumeur"));
     }
+
+    @Test
+    void cholesterolMatchesWithOrWithoutAccent() {
+        assertEquals(List.of("Cholestérol"), detector.detect(List.of("taux de cholesterol LDL")));
+        assertEquals(List.of("Cholestérol"), detector.detect(List.of("taux de cholestérol LDL")));
+    }
 }

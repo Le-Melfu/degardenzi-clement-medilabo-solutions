@@ -1,0 +1,41 @@
+.birth-date-picker {
+  position: relative;
+
+  &__trigger {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  &__required {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+
+  &__popover {
+    position: absolute;
+    z-index: 20;
+    top: calc(100% + var(--space-2));
+    left: 0;
+    padding: var(--space-3);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+  }
+
+  .rdp-root {
+    --rdp-accent-color: var(--color-primary);
+    --rdp-accent-background-color: var(--color-primary-soft);
+    --rdp-today-color: var(--color-primary);
+    font-family: var(--font-sans);
+  }
+}

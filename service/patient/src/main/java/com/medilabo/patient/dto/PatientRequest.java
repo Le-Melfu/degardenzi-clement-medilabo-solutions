@@ -6,6 +6,7 @@ import com.medilabo.patient.model.Gender;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 
 public class PatientRequest {
@@ -19,6 +20,7 @@ public class PatientRequest {
     private String lastName;
 
     @NotNull
+    @PastOrPresent
     private LocalDate birthDate;
 
     @NotNull

@@ -7,21 +7,6 @@ spring:
   output:
     ansi:
       enabled: ALWAYS
-  datasource:
-    url: jdbc:mysql://localhost:3306/medilabo_gateway?createDatabaseIfNotExist=false&useSSL=false&allowPublicKeyRetrieval=true
-    username: medilabo
-    password: medilabo
-    driver-class-name: com.mysql.cj.jdbc.Driver
-  jpa:
-    open-in-view: false
-    hibernate:
-      # Le schéma est géré par db/schema.sql
-      ddl-auto: none
-  sql:
-    init:
-      mode: always
-      schema-locations: classpath:db/schema.sql
-      continue-on-error: false
   cloud:
     gateway:
       mvc:
@@ -47,6 +32,3 @@ logging:
     root: INFO
     com.medilabo.gateway.logging: INFO
     org.springframework.security: WARN
-    org.springframework.jdbc.datasource.init: WARN
-    org.hibernate: WARN
-    com.zaxxer.hikari: WARN

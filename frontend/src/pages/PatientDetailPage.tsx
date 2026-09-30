@@ -2,6 +2,7 @@ import { FormEvent, useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Button } from '../components/atoms/Button'
 import { FormField } from '../components/molecules/FormField'
+import { BirthDatePicker } from '../components/molecules/BirthDatePicker'
 import { Label } from '../components/atoms/Label'
 import { AppShell } from '../components/organisms/AppShell'
 import {
@@ -94,6 +95,12 @@ export function PatientDetailPage({ mode }: PatientDetailPageProps) {
     setForm((prev) => ({ ...prev, [field]: value }))
   }
 
+  const handleGenderChange = (value: string) => {
+    if (value === 'M' || value === 'F') {
+      setForm((prev) => ({ ...prev, gender: value }))
+    }
+  }
+
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault()
     setSaving(true)
@@ -163,12 +170,11 @@ export function PatientDetailPage({ mode }: PatientDetailPageProps) {
               onChange={(e) => handleChange('firstName', e.target.value)}
               required
             />
-            <FormField
+            <BirthDatePicker
               id="birthDate"
               label="Date de naissance *"
-              type="date"
               value={form.birthDate}
-              onChange={(e) => handleChange('birthDate', e.target.value)}
+              onChange={(value) => handleChange('birthDate', value)}
               required
             />
             <div className="form-field">
@@ -177,11 +183,11 @@ export function PatientDetailPage({ mode }: PatientDetailPageProps) {
                 id="gender"
                 className="input"
                 value={form.gender}
-                onChange={(e) => handleChange('gender', e.target.value)}
+                onChange={(e) => handleGenderChange(e.target.value)}
                 required
               >
-                <option value="F">F</option>
-                <option value="M">M</option>
+                <option value="F">Femme</option>
+                <option value="M">Homme</option>
               </select>
             </div>
             <FormField

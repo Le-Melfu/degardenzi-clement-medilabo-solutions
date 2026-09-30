@@ -49,10 +49,4 @@ class GatewayApplicationTests {
         mockMvc.perform(get("/patient/").with(basicAuth("doctor", "password")))
                 .andExpect(status().is(Objects.requireNonNull(not(401))));
     }
-
-    @Test
-    void shouldAuthenticateServiceAccount() throws Exception {
-        mockMvc.perform(get("/patient/").with(basicAuth("service", "service")))
-                .andExpect(status().is(Objects.requireNonNull(not(401))));
-    }
 }

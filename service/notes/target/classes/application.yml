@@ -12,6 +12,13 @@ spring:
       # Compte de service applicatif (jamais root)
       uri: mongodb://medilabo:medilabo@localhost:27017/medilabo_notes?authSource=medilabo_notes&serverSelectionTimeoutMS=5000
 
+medilabo:
+  patient:
+    url: http://localhost:8081
+  clients:
+    username: service
+    password: service
+
 logging:
   pattern:
     # %cthread{15} = centred thread name (custom CenteredThreadConverter)
