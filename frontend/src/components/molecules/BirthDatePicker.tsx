@@ -6,6 +6,9 @@ import { Label } from '../atoms/Label'
 import 'react-day-picker/style.css'
 import './BirthDatePicker.scss'
 
+// Month and year dropdowns cover every plausible birth date.
+const FIRST_BIRTH_MONTH = new Date(1900, 0, 1)
+
 type BirthDatePickerProps = {
   id: string
   label: string
@@ -69,6 +72,10 @@ export function BirthDatePicker({ id, label, value, onChange, required }: BirthD
             }}
             disabled={{ after: today }}
             defaultMonth={selected ?? today}
+            captionLayout="dropdown"
+            startMonth={FIRST_BIRTH_MONTH}
+            endMonth={today}
+            reverseYears
           />
         </div>
       ) : null}
