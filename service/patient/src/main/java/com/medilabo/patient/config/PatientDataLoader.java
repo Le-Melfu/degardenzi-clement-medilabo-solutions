@@ -34,7 +34,7 @@ public class PatientDataLoader implements CommandLineRunner {
         patientRepository.save(patient("Test", "TestInDanger", LocalDate.of(2004, 6, 18), Gender.M, "3 Club Road", "300-444-5555"));
         patientRepository.save(patient("Test", "TestEarlyOnset", LocalDate.of(2002, 6, 28), Gender.F, "4 Valley Dr", "400-555-6666"));
 
-        log.info("[DebugClem] Seeded 4 test patients (Annexe A)");
+        log.info("Seeded 4 test patients (Annexe A)");
     }
 
     @NonNull

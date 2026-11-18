@@ -1,5 +1,5 @@
 -- Bases + compte de service applicatif (pas root)
--- Exécuté par Docker au 1er démarrage MySQL, ou via scripts/setup-mysql.ps1
+-- Exécuté par Docker au 1er démarrage de MySQL (docker-entrypoint-initdb.d)
 
 CREATE DATABASE IF NOT EXISTS medilabo_patient
     CHARACTER SET utf8mb4

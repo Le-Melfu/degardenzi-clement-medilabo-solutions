@@ -97,13 +97,14 @@ Le client demande une politique de sobriété numérique. Les pistes ci-dessous 
 - Lecture du patient seulement s'il existe au moins un déclencheur. Sinon le résultat est `None`.
 - Images d'exécution en JRE, pas en JDK.
 - Détection par recherche des 11 termes de la spécification, sans bibliothèque de traitement du langage.
+- Un seul index côté notes, composé `{patId, createdAt}` : il sert à la fois le filtre par patient et le tri chronologique de l'historique.
 - Un seul `docker-compose.yml`, avec des contrôles de santé : la gateway démarre après les API, le client après la gateway.
 
 ### Pistes non implémentées
 
 - Détection clinique, hors spécification : ignorer les négations (« ne fume pas »), ajouter des synonymes, ou distinguer un mode strict et un mode clinique.
 - Éviter que l'écran et le calcul de risque relisent les mêmes notes, par un cache court si la charge le justifie. Paginer les historiques s'ils grossissent.
-- Indexer seulement `patId` côté notes. Garder les logs SQL coupés hors debug.
+- Garder les logs SQL coupés hors debug.
 - Limiter le CPU et la RAM des conteneurs en démonstration.
 - En intégration continue, mettre en cache le dépôt Maven et ne pas relancer tous les tests back pour un changement de client.
 

@@ -1,0 +1,16 @@
+# Build outputs
+target/
+node_modules/
+dist/
+
+# IDE / assistant context
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+.cursor/
+
+# Local env
+.env
+.env.local

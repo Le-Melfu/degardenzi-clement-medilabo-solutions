@@ -11,6 +11,8 @@ spring:
     mongodb:
       # Compte de service applicatif (jamais root)
       uri: mongodb://medilabo:medilabo@localhost:27017/medilabo_notes?authSource=medilabo_notes&serverSelectionTimeoutMS=5000
+      # Creates the indexes declared on @Document classes (off by default since Spring Data MongoDB 3.0)
+      auto-index-creation: true
 
 medilabo:
   patient:
